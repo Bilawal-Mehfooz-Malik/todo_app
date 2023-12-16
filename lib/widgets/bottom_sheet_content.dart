@@ -1,111 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/todo_data.dart';
+import 'package:todo_app/providers/todo_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/providers/priority_provider.dart';
 
-const space = SizedBox(height: 16);
-var selectedPriority = Priority.normal;
+class BottomSheetContent extends ConsumerWidget {
+  BottomSheetContent({super.key});
 
-class BottomSheetContent extends StatelessWidget {
-  const BottomSheetContent({
-    super.key,
-    required this.onPressed,
-    required this.controller,
-  });
-  final VoidCallback onPressed;
-  final TextEditingController controller;
+  final _space = const SizedBox(height: 16);
+  final _controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final style = Theme.of(context);
-    return StatefulBuilder(builder: (context, setState) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-        child: Column(
-          children: [
-            // Text Field
-            _todoField(),
-            space,
+    final saveTodo = ref.read(todoProvider.notifier);
+    final selectedPriority = ref.watch(selectedPriorityProvider);
+    final onChanged = ref.read(selectedPriorityProvider.notifier);
 
-            //Priority Section
-            Text(
-              'Select Priority',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            space,
-            _radioButtonSection(setState),
-            space,
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          child: Column(
+            children: [
+              // Text Field
+              TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  labelText: 'what to do?',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0)),
+                ),
+              ),
+              _space,
 
-            // Save Button
-            _saveButton(context, style),
-          ],
-        ),
-      );
-    });
-  }
+              //Priority Section
+              Text(
+                'Select Priority',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              _space,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Radio<Priority>(
+                    value: Priority.low,
+                    groupValue: selectedPriority,
+                    onChanged: (val) {
+                      onChanged.changePriority(val!);
+                    },
+                  ),
+                  const Text('Low'),
+                  const SizedBox(width: 12),
+                  Radio<Priority>(
+                    value: Priority.normal,
+                    groupValue: selectedPriority,
+                    onChanged: (val) {
+                      onChanged.changePriority(val!);
+                    },
+                  ),
+                  const Text('Normal'),
+                  const SizedBox(width: 12),
+                  Radio<Priority>(
+                    value: Priority.high,
+                    groupValue: selectedPriority,
+                    onChanged: (val) {
+                      onChanged.changePriority(val!);
+                    },
+                  ),
+                  const Text('High'),
+                ],
+              ),
+              _space,
 
-  //Todo TextField
-  TextField _todoField() {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: 'what to do?',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(0)),
-      ),
+              // Save Button
+              ElevatedButton(
+                onPressed: () {
+                  saveTodo.saveTodo(
+                    ref: ref,
+                    context: context,
+                    task: _controller.text,
+                    priority: selectedPriority,
+                  );
+                  _controller.clear();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: style.colorScheme.primary,
+                  foregroundColor: style.colorScheme.onPrimary,
+                ),
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
-
-  // Save Button
-  ElevatedButton _saveButton(BuildContext context, ThemeData style) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: style.colorScheme.primary,
-        foregroundColor: style.colorScheme.onPrimary,
-      ),
-      child: const Text('Save'),
-    );
-  }
-}
-
-// Radio Button Section
-Row _radioButtonSection(StateSetter setState) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Radio<Priority>(
-        value: Priority.low,
-        groupValue: selectedPriority,
-        onChanged: (val) {
-          setState(() {
-            selectedPriority = val!;
-            debugPrint(selectedPriority.toString());
-          });
-        },
-      ),
-      const Text('Low'),
-      const SizedBox(width: 12),
-      Radio<Priority>(
-        value: Priority.normal,
-        groupValue: selectedPriority,
-        onChanged: (val) {
-          setState(() {
-            selectedPriority = val!;
-            debugPrint(selectedPriority.toString());
-          });
-        },
-      ),
-      const Text('Normal'),
-      const SizedBox(width: 12),
-      Radio<Priority>(
-        value: Priority.high,
-        groupValue: selectedPriority,
-        onChanged: (val) {
-          setState(() {
-            selectedPriority = val!;
-            debugPrint(selectedPriority.toString());
-          });
-        },
-      ),
-      const Text('High'),
-    ],
-  );
 }

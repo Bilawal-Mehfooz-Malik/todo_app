@@ -14,8 +14,6 @@ class ToDo {
     required this.priority,
     this.isCompleted = false,
   });
-
-  static List<ToDo> myTodos = [];
 }
 
 void errorDialog(

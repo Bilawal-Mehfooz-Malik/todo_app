@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/widgets/todo_data.dart';
+import 'package:todo_app/providers/todo_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TodoList extends StatelessWidget {
-  const TodoList({super.key, required this.onChanged});
-
-  final void Function(bool, int) onChanged;
+class TodoList extends ConsumerWidget {
+  const TodoList({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todos = ref.watch(todoProvider);
     return ListView.builder(
-        itemCount: ToDo.myTodos.length,
+        itemCount: todos.length,
         itemBuilder: (ctx, index) {
-          final todo = ToDo.myTodos[index];
+          final todo = todos[index];
           return CheckboxListTile(
             value: todo.isCompleted,
             onChanged: (value) {
-              onChanged(value!, index);
+              ref.watch(todoProvider.notifier).updateCheckBox(value!, index);
             },
             title: Text(todo.task),
             subtitle: Text('Priority: ${todo.priority.name}'),
