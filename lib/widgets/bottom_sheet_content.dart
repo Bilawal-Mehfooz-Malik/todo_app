@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/widgets/todo_data.dart';
+import 'package:todo_app/data/todo_data.dart';
 import 'package:todo_app/providers/todo_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/providers/priority_provider.dart';
@@ -44,13 +44,13 @@ class BottomSheetContent extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Radio<Priority>(
-                    value: Priority.low,
+                    value: Priority.extra,
                     groupValue: selectedPriority,
                     onChanged: (val) {
                       onChanged.changePriority(val!);
                     },
                   ),
-                  const Text('Low'),
+                  const Text('Extra'),
                   const SizedBox(width: 12),
                   Radio<Priority>(
                     value: Priority.normal,
@@ -62,13 +62,13 @@ class BottomSheetContent extends ConsumerWidget {
                   const Text('Normal'),
                   const SizedBox(width: 12),
                   Radio<Priority>(
-                    value: Priority.high,
+                    value: Priority.important,
                     groupValue: selectedPriority,
                     onChanged: (val) {
                       onChanged.changePriority(val!);
                     },
                   ),
-                  const Text('High'),
+                  const Text('Important'),
                 ],
               ),
               _space,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Priority { low, normal, high }
+enum Priority { extra, normal, important }
 
 class ToDo {
   final String id;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/todo_data.dart';
 import 'package:todo_app/widgets/todo_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/widgets/bottom_sheet_content.dart';
@@ -53,9 +54,9 @@ class MyHomePage extends StatelessWidget {
         },
         body: const TabBarView(
           children: [
-            Center(child: Text('Urgent Content')),
-            Center(child: Text('Normal Content')),
-            Center(child: Text('Extra Content')),
+            Tab(child: TodoList(priority: Priority.important)),
+            Tab(child: TodoList(priority: Priority.normal)),
+            Tab(child: TodoList(priority: Priority.extra))
           ],
         ),
       ),
@@ -82,7 +83,7 @@ class MyHomePage extends StatelessWidget {
         unselectedLabelColor: Colors.white70,
         indicatorSize: TabBarIndicatorSize.tab,
         tabs: <Widget>[
-          Tab(text: 'Urgent'),
+          Tab(text: 'Important'),
           Tab(text: 'Normal'),
           Tab(text: 'Extra'),
         ],
