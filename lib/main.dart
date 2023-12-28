@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/widgets/todo_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/widgets/bottom_sheet_content.dart';
-import 'package:todo_app/widgets/todo_list.dart';
+
+final _lightTheme = ThemeData(
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+);
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -14,11 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todo App',
+      theme: _lightTheme,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(),
+      home: const DefaultTabController(length: 3, child: MyHomePage()),
     );
   }
 }
@@ -41,21 +43,49 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context);
+
     return Scaffold(
-      //appbar
-      appBar: AppBar(
-        backgroundColor: style.colorScheme.primary,
-        foregroundColor: style.colorScheme.onPrimary,
-        title: const Text('Todo App'),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            _appBar(style),
+          ];
+        },
+        body: const TabBarView(
+          children: [
+            Center(child: Text('Urgent Content')),
+            Center(child: Text('Normal Content')),
+            Center(child: Text('Extra Content')),
+          ],
+        ),
       ),
-      //list view body
-      body: const TodoList(),
-      //floating action button
+
+      //* Floating action button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _showModalBottomSheet(context);
         },
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  SliverAppBar _appBar(ThemeData style) {
+    return SliverAppBar(
+      backgroundColor: style.colorScheme.primary,
+      foregroundColor: style.colorScheme.onPrimary,
+      pinned: true,
+      floating: true,
+      title: const Text('Todo App'),
+      bottom: const TabBar(
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white70,
+        indicatorSize: TabBarIndicatorSize.tab,
+        tabs: <Widget>[
+          Tab(text: 'Urgent'),
+          Tab(text: 'Normal'),
+          Tab(text: 'Extra'),
+        ],
       ),
     );
   }

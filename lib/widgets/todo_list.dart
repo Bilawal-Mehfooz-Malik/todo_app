@@ -8,18 +8,21 @@ class TodoList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todos = ref.watch(todoProvider);
-    return ListView.builder(
-        itemCount: todos.length,
-        itemBuilder: (ctx, index) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext ctx, int index) {
           final todo = todos[index];
           return CheckboxListTile(
             value: todo.isCompleted,
             onChanged: (value) {
-              ref.watch(todoProvider.notifier).updateCheckBox(value!, index);
+              ref.read(todoProvider.notifier).updateCheckBox(value!, index);
             },
             title: Text(todo.task),
             subtitle: Text('Priority: ${todo.priority.name}'),
           );
-        });
+        },
+        childCount: todos.length,
+      ),
+    );
   }
 }
