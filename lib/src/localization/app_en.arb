@@ -1,0 +1,83 @@
+{
+  "@@locale": "en", 
+
+  "app_title": "TODO App",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+
+  "my_tasks": "My Tasks",
+  "@my_tasks": {
+    "description": "The label displayed for the list of tasks. "
+  },
+
+  "add_task": "Add Task",
+  "@add_task": {
+    "description": "The text displayed on the button to create a new task."
+  },
+
+  "edit_task": "Edit Task",
+  "@edit_task": {
+    "description": "The text displayed on the button to modify an existing task."
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "The text displayed on the button to confirm changes made to a task."
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "The text displayed on the button to discard changes made to a task."
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "The label displayed for the menu or section containing application configuration options."
+  },
+
+  "theme": "Theme",
+  "@theme": {
+    "description": "The label displayed for the option to change the application's visual style (e.g., light or dark mode)."
+  },
+
+  "light_mode": "Light Mode",
+  "@light_mode": {
+    "description": "The text displayed for the option to use a light color theme for the application."
+  },
+
+  "dark_mode": "Dark Mode",
+  "@dark_mode": {
+    "description": "The text displayed for the option to use a dark color theme for the application."
+  },
+
+  "task_title": "Title",
+  "@task_title": {
+    "description": "The label displayed for the input field where users enter the name of a task."
+  },
+
+  "priority": "Priority",
+  "@priority": {
+    "description": "The label displayed for the option to set the importance level of a task (e.g., high, normal)."
+  },
+
+  "due_date": "Due Date",
+  "@due_date": {
+    "description": "The label displayed for the option to set a deadline for completing a task."
+  },
+
+  "complete": "Mark as Complete",
+  "@complete": {
+    "description": "The text displayed on a button or checkbox to indicate that a task has been finished."
+  },
+
+  "notes": "Notes",
+  "@notes": {
+    "description": "The label displayed for an optional field where users can add additional information about a task."
+  },
+
+  "task_details": "Task Details",
+  "@task_details": {
+    "description": "The label displayed for the section or screen that shows detailed information about a task."
+  }
+}
