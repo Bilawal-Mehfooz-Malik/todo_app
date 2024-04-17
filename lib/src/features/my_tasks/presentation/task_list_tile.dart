@@ -14,7 +14,10 @@ class TaskListTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-          title: Text(task.taskName),
+          title: Text(
+            task.taskName,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           subtitle: Text('Deadline: ${task.deadline}'),
           trailing: IconButton(
             onPressed: () => _markComplete(context),

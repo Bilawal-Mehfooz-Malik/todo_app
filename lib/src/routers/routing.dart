@@ -18,9 +18,7 @@ final router = GoRouter(
         GoRoute(
           path: 'addtask',
           name: AppRoute.addtask.name,
-          pageBuilder: (context, state) {
-            return const NoTransitionPage(child: AddTaskScreen());
-          },
+          builder: (context, state) => const AddTaskScreen(),
         ),
       ],
     ),

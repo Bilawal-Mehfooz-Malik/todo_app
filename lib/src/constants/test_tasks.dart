@@ -1,6 +1,6 @@
 import 'package:todo_app/src/features/my_tasks/domain/task.dart';
 
-final kTestTasks = [
+final testTasks = [
   Task(
     id: '1',
     taskName: 'Ecomerece app',

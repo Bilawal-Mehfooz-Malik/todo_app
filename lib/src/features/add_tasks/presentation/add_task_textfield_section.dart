@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+
+// local imports
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/custom_textformfield.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
@@ -13,6 +14,7 @@ class AddTaskTextFieldsSection extends StatefulWidget {
 }
 
 class _AddTaskTextFieldsSectionState extends State<AddTaskTextFieldsSection> {
+  final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 
@@ -25,19 +27,22 @@ class _AddTaskTextFieldsSectionState extends State<AddTaskTextFieldsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomTextFormField(
-          label: 'Title'.hardcoded,
-          controller: _titleController,
-        ),
-        gapH8,
-        CustomTextFormField(
-          label: 'Description'.hardcoded,
-          controller: _descriptionController,
-        ),
-        gapH16,
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            label: 'Title'.hardcoded,
+            controller: _titleController,
+          ),
+          gapH8,
+          CustomTextFormField(
+            label: 'Description'.hardcoded,
+            controller: _descriptionController,
+          ),
+          gapH16,
+        ],
+      ),
     );
   }
 }

@@ -19,7 +19,7 @@ class _PriorityRadioSectionState extends State<PriorityRadioSection> {
       children: [
         Text(
           'Choose the priority of your work',
-          style: style.textTheme.titleMedium,
+          style: style.textTheme.titleLarge,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
