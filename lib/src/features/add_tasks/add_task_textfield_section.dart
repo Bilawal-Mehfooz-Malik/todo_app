@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // local imports
 import 'package:todo_app/src/constants/app_sizes.dart';
-import 'package:todo_app/src/common/custom_textformfield.dart';
+import 'package:todo_app/src/common/custom_text_field.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
 
 class AddTaskTextFieldsSection extends StatefulWidget {
@@ -31,13 +31,15 @@ class _AddTaskTextFieldsSectionState extends State<AddTaskTextFieldsSection> {
       key: _formKey,
       child: Column(
         children: [
-          CustomTextFormField(
+          CustomTextField(
             label: 'Title'.hardcoded,
             controller: _titleController,
           ),
           gapH8,
-          CustomTextFormField(
-            label: 'Description'.hardcoded,
+          CustomTextField(
+            maxLines: 8,
+            maxLength: 1000,
+            hintText: 'Description'.hardcoded,
             controller: _descriptionController,
           ),
           gapH16,

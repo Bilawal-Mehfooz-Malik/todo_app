@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 // local imports
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
+import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
-import 'package:todo_app/src/features/add_tasks/presentation/add_task_textfield_section.dart';
+import 'package:todo_app/src/features/add_tasks/add_task_textfield_section.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
@@ -12,7 +13,7 @@ class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Todo')),
+      appBar: AppBar(title: Text('Add Todo'.hardcoded)),
       body: Padding(
         padding: const EdgeInsets.all(Sizes.p8),
         child: Column(
@@ -23,7 +24,7 @@ class AddTaskScreen extends StatelessWidget {
 
             // Save Todo Button
             CustomElevatedButton(
-              text: 'Save',
+              text: 'Save'.hardcoded,
               onPressed: () => _saveTodo(context),
             ),
             gapH4,

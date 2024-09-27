@@ -13,28 +13,14 @@ class MyTasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context);
-    final textTheme =
-        style.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold);
-
-    // TODO: Replace with your data fetching logic (consider using a state management solution)
+    // TODO: Replace with your data fetching logic
     final tasks = testTasks.toList();
 
     return Scaffold(
       appBar: AppBar(title: Text('My Tasks'.hardcoded)),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Urgent Tasks Section
-              Text('Urgent Tasks'.hardcoded, style: textTheme),
-              gapH8,
-              TaskListView(tasks: tasks),
-            ],
-          ),
-        ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+        child: TaskListView(tasks: tasks),
       ),
       floatingActionButton: _floatingActionButton(context),
     );

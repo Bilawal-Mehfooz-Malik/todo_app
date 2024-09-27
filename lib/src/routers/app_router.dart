@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 
 // local imports
 import 'package:todo_app/src/features/my_tasks/presentation/my_tasks_screen.dart';
-import 'package:todo_app/src/features/add_tasks/presentation/add_tasks_screen.dart';
+import 'package:todo_app/src/features/add_tasks/add_tasks_screen.dart';
 
 enum AppRoute { mytasks, addtask, settings }
 

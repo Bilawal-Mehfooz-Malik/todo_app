@@ -1,7 +1,7 @@
 {
   "@@locale": "en", 
 
-  "app_title": "TODO App",
+  "app_title": "TODO",
   "@appTitle": {
     "description": "The title of the application"
   },
@@ -54,11 +54,6 @@
   "task_title": "Title",
   "@task_title": {
     "description": "The label displayed for the input field where users enter the name of a task."
-  },
-
-  "priority": "Priority",
-  "@priority": {
-    "description": "The label displayed for the option to set the importance level of a task (e.g., high, normal)."
   },
 
   "due_date": "Due Date",
