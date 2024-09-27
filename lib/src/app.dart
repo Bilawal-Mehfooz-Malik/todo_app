@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // local imports
-import 'package:todo_app/src/routers/routing.dart';
+import 'package:todo_app/src/routers/app_router.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
 
 class MyApp extends StatelessWidget {
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(),
-      routerConfig: router,
+      routerConfig: appRouter,
       restorationScopeId: 'app',
       darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,

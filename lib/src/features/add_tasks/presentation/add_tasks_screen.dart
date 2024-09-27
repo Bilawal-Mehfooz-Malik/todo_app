@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
-import 'package:todo_app/src/features/add_tasks/presentation/priority_radio_section.dart';
 import 'package:todo_app/src/features/add_tasks/presentation/add_task_textfield_section.dart';
 
 class AddTaskScreen extends StatelessWidget {
@@ -21,10 +20,6 @@ class AddTaskScreen extends StatelessWidget {
           children: [
             // Task title and description fields
             const AddTaskTextFieldsSection(),
-
-            // Priority Section ([Priority.urgent], [Priority.normal])
-            const PriorityRadioSection(),
-            const Spacer(),
 
             // Save Todo Button
             CustomElevatedButton(

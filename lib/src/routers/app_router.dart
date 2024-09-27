@@ -6,7 +6,7 @@ import 'package:todo_app/src/features/add_tasks/presentation/add_tasks_screen.da
 
 enum AppRoute { mytasks, addtask, settings }
 
-final router = GoRouter(
+final appRouter = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/mytasks',
   routes: [

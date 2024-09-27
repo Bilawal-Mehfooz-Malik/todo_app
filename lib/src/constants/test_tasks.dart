@@ -4,14 +4,12 @@ final testTasks = [
   Task(
     id: '1',
     taskName: 'Ecomerece app',
-    priority: Priority.urgent,
     taskDescription: 'Watch 5 videos',
     deadline: '01-10-2024',
   ),
   Task(
     id: '2',
     taskName: 'TODO App',
-    priority: Priority.urgent,
     taskDescription: 'Implement any functionality',
     deadline: '01-10-2024',
   ),
