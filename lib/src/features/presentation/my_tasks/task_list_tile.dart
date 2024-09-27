@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 // local imports
 import 'package:todo_app/src/common/alert_dialogues.dart';
-import 'package:todo_app/src/features/my_tasks/domain/task.dart';
+import 'package:todo_app/src/features/domain/todo_model.dart';
 
 class TaskListTile extends StatelessWidget {
-  final Task task;
+  final Todo task;
   const TaskListTile({super.key, required this.task});
 
   @override
@@ -15,7 +15,7 @@ class TaskListTile extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
           title: Text(
-            task.taskName,
+            task.name,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text('Deadline: ${task.deadline}'),

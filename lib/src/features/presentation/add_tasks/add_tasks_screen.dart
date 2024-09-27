@@ -4,7 +4,7 @@ import 'package:todo_app/src/common/responsive_scrollable_card.dart';
 
 // local imports
 import 'package:todo_app/src/constants/app_sizes.dart';
-import 'package:todo_app/src/features/add_tasks/add_task_body.dart';
+import 'package:todo_app/src/features/presentation/add_tasks/add_task_body.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
 
 class AddTaskScreen extends StatelessWidget {

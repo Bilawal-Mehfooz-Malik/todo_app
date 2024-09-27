@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 // local imports
-import 'package:todo_app/src/features/my_tasks/domain/task.dart';
-import 'package:todo_app/src/features/my_tasks/presentation/task_list_tile.dart';
+import 'package:todo_app/src/features/domain/todo_model.dart';
+import 'package:todo_app/src/features/presentation/my_tasks/task_list_tile.dart';
 
 class TaskListView extends StatelessWidget {
-  final List<Task> tasks;
+  final List<Todo> tasks;
   const TaskListView({super.key, required this.tasks});
 
   @override

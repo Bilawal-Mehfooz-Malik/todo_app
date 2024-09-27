@@ -9,7 +9,7 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/routers/app_router.dart';
 import 'package:todo_app/src/constants/test_tasks.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
-import 'package:todo_app/src/features/my_tasks/presentation/task_list_view.dart';
+import 'package:todo_app/src/features/presentation/my_tasks/task_list_view.dart';
 
 class MyTasksScreen extends StatelessWidget {
   const MyTasksScreen({super.key});

@@ -3,7 +3,7 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
-import 'package:todo_app/src/features/add_tasks/add_task_textfield_section.dart';
+import 'package:todo_app/src/features/presentation/add_tasks/add_task_textfield_section.dart';
 
 class AddTaskBody extends StatelessWidget {
   const AddTaskBody({super.key});
