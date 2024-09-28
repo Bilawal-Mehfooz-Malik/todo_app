@@ -14,7 +14,7 @@ abstract class TodoRepository {
   Future<void> addTodo(Todo todo);
 
   // Delete Todo
-  Future<void> deleteTodo(String id);
+  Future<void> deleteTodo(int id);
 
   // Edit Todo
   Future<void> editTodo(Todo todo);
