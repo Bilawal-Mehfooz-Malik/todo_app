@@ -7,14 +7,14 @@ import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
 import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 
-class AddTaskBody extends StatefulWidget {
-  const AddTaskBody({super.key});
+class AddTodoBody extends StatefulWidget {
+  const AddTodoBody({super.key});
 
   @override
-  State<AddTaskBody> createState() => _AddTaskBodyState();
+  State<AddTodoBody> createState() => _AddTodoBodyState();
 }
 
-class _AddTaskBodyState extends State<AddTaskBody> {
+class _AddTodoBodyState extends State<AddTodoBody> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 

@@ -7,10 +7,10 @@ import 'package:todo_app/src/common/responsive_center.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/common/responsive_scrollable_card.dart';
 import 'package:todo_app/src/features/presentation/my_tasks/todo_list_view.dart';
-import 'package:todo_app/src/features/presentation/add_tasks/add_tasks_screen.dart';
+import 'package:todo_app/src/features/presentation/add_tasks/add_todo_screen.dart';
 
-class MyTasksScreen extends StatelessWidget {
-  const MyTasksScreen({super.key});
+class MyTodoScreen extends StatelessWidget {
+  const MyTodoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class MyTasksScreen extends StatelessWidget {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const AddTaskScreen()),
+        MaterialPageRoute(builder: (context) => const AddTodoScreen()),
       ),
     );
   }
