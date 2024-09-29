@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // local imports
-import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
+import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 
-class TaskListTile extends StatelessWidget {
-  final Todo task;
-  const TaskListTile({super.key, required this.task});
+class TodoListTile extends StatelessWidget {
+  final Todo todo;
+  const TodoListTile({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +16,16 @@ class TaskListTile extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
           title: Text(
-            task.name,
+            todo.name,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: Text('Deadline: ${task.deadline}'),
+          subtitle: Text('Deadline: ${todo.deadline}'),
           trailing: IconButton(
-            onPressed: () => _markComplete(context),
             icon: const Icon(Icons.check_box_outline_blank_rounded),
+            onPressed: () => context.read<TodoCubit>().toggleCompletion(todo),
           ),
         ),
       ),
     );
-  }
-
-  void _markComplete(BuildContext context) {
-    // TODO: add task complete functionality
-    showNotImplementedAlertDialog(context: context);
   }
 }

@@ -30,4 +30,10 @@ class IsarRepository implements TodoRepository {
     final todos = await _db.isarTodos.where().findAll();
     return todos.map((isarTodo) => isarTodo.toDomain()).toList();
   }
+
+  @override
+  Future<void> toggleCompletion(Todo todo) async {
+    final completedTodo = todo.toggleCompletion(todo);
+    await editTodo(completedTodo);
+  }
 }

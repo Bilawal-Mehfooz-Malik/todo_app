@@ -27,6 +27,7 @@ class IsarTodo {
       ..id = todo.id
       ..name = todo.name
       ..description = todo.description
-      ..isCompleted = todo.isCompleted;
+      ..isCompleted = todo.isCompleted
+      ..deadline = todo.deadline;
   }
 }

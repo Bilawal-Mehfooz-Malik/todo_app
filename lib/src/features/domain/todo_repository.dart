@@ -18,4 +18,7 @@ abstract class TodoRepository {
 
   // Edit Todo
   Future<void> editTodo(Todo todo);
+
+  // complete
+  Future<void> toggleCompletion(Todo todo);
 }

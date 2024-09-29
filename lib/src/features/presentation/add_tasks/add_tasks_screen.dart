@@ -4,8 +4,8 @@ import 'package:todo_app/src/common/responsive_scrollable_card.dart';
 
 // local imports
 import 'package:todo_app/src/constants/app_sizes.dart';
-import 'package:todo_app/src/features/presentation/add_tasks/add_task_body.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
+import 'package:todo_app/src/features/presentation/add_tasks/add_task_body.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
@@ -21,7 +21,8 @@ class AddTaskScreen extends StatelessWidget {
           }
 
           return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
+            padding:
+                EdgeInsets.symmetric(vertical: Sizes.p8, horizontal: Sizes.p12),
             child: AddTaskBody(),
           );
         },

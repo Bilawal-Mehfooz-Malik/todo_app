@@ -10,6 +10,7 @@ class TodoCubit extends Cubit<List<Todo>> {
 
   Future<void> loadTodos() async {
     final todos = await _todoRepository.getAllTodo();
+    print('Loaded todos: $todos'); // Add a debug print here
     emit(todos);
   }
 
@@ -25,6 +26,11 @@ class TodoCubit extends Cubit<List<Todo>> {
 
   Future<void> deleteTodo(int id) async {
     await _todoRepository.deleteTodo(id);
+    loadTodos();
+  }
+
+  Future<void> toggleCompletion(Todo todo) async {
+    await _todoRepository.toggleCompletion(todo);
     loadTodos();
   }
 }

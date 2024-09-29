@@ -22,6 +22,7 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       maxLines: maxLines,
       maxLength: maxLength,
+      controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: label,

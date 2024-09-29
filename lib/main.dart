@@ -1,7 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isar/isar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-// ignore:depend_on_referenced_packages
-import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:todo_app/src/features/data/isar_todo.dart';
+import 'package:todo_app/src/features/data/isar_repository.dart';
+import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 
 // local imports
 import 'src/app.dart';
@@ -9,14 +13,14 @@ import 'src/localization/string_hardcoded.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // turn off the # in the URLs on the web
-  usePathUrlStrategy();
-  // * Register error handlers. For more info, see:
-  // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
 
-  //! Entry Point of App
-  runApp(const MyApp());
+  final dir = await getApplicationDocumentsDirectory();
+  final isar = await Isar.open([IsarTodoSchema], directory: dir.path);
+  final repo = IsarRepository(isar);
+
+  runApp(
+      BlocProvider(create: (context) => TodoCubit(repo), child: const MyApp()));
 }
 
 void registerErrorHandlers() {

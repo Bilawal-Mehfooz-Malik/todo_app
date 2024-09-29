@@ -15,7 +15,6 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_localizations:
     sdk: flutter
-  go_router: ^13.2.4
   intl: any
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
