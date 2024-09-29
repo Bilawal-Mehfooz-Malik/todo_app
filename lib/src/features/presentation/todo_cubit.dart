@@ -10,7 +10,6 @@ class TodoCubit extends Cubit<List<Todo>> {
 
   Future<void> loadTodos() async {
     final todos = await _todoRepository.getAllTodo();
-    print('Loaded todos: $todos'); // Add a debug print here
     emit(todos);
   }
 

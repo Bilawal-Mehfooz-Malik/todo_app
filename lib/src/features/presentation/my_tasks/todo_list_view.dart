@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // local imports
+import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/my_tasks/task_list_tile.dart';
 
@@ -20,7 +20,7 @@ class TodoListView extends StatelessWidget {
             todosList.length, (index) => TodoListTile(todo: todosList[index]));
 
         if (todos.isEmpty) {
-          return Center(child: Text('No todo found'.hardcoded));
+          return Center(child: Text(context.loc.noTodoFound));
         }
 
         return Column(children: todos);

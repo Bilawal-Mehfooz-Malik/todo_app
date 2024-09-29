@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Local imports
+import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
+import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 
 class TodoListTile extends StatelessWidget {
@@ -32,7 +34,8 @@ class TodoListTile extends StatelessWidget {
         child: ListTile(
           tileColor: Colors.grey.shade300,
           title: _buildTitle(todo),
-          subtitle: todo.isCompleted ? null : _buildDeadline(todo.deadline),
+          subtitle:
+              todo.isCompleted ? null : _buildDeadline(todo.deadline, context),
 
           // Leading icon allows toggling the completion state
           leading: IconButton(
@@ -67,7 +70,7 @@ class TodoListTile extends StatelessWidget {
   }
 
   /// Displays the deadline of the todo as a subtitle.
-  Text _buildDeadline(String deadline) {
-    return Text('Deadline: $deadline');
+  Text _buildDeadline(String deadline, BuildContext context) {
+    return Text('${context.loc.deadline} $deadline'.hardcoded);
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 // local imports
-import 'package:todo_app/src/localization/string_hardcoded.dart';
+import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/presentation/my_tasks/my_todo_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,11 +12,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(),
       restorationScopeId: 'app',
-      darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      onGenerateTitle: (BuildContext context) => 'TODO App'.hardcoded,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en', '')],
+      onGenerateTitle: (BuildContext context) => context.loc.app_title,
+      theme: ThemeData(),
+      darkTheme: ThemeData.dark(),
       home: const MyTodoScreen(),
     );
   }
