@@ -7,17 +7,32 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/common/alert_dialogues.dart';
+import 'package:todo_app/src/localization/string_hardcoded.dart';
 
 // Local imports
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 
 class TodoListTile extends StatelessWidget {
   final Todo todo;
 
   const TodoListTile({super.key, required this.todo});
+
+  void onDismissed(BuildContext context, TodoCubit todoCubit) async {
+    final result = await showAlertDialog(
+      context: context,
+      title: 'Todo Delete!'.hardcoded,
+      content: 'Are you sure you want to delete this todo',
+      cancelActionText: 'Cancel',
+      defaultActionText: 'Delete',
+    );
+
+    if (result == true) {
+      todoCubit.deleteTodo(todo.id);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +43,17 @@ class TodoListTile extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Dismissible(
         // Dismissible allows the user to swipe the tile to delete the todo
-        background: Container(color: Colors.red),
+        background: Container(color: context.color.error),
         key: ValueKey(todo.id),
-        onDismissed: (direction) => todoCubit.deleteTodo(todo.id),
+        onDismissed: (direction) => onDismissed(context, todoCubit),
         child: ListTile(
-          tileColor: Colors.grey.shade300,
-          title: _buildTitle(todo),
-          subtitle:
-              todo.isCompleted ? null : _buildDeadline(todo.deadline, context),
+            title: _buildTitle(todo),
+            subtitle: todo.isCompleted
+                ? null
+                : _buildDeadline(todo.deadline, context),
 
-          // Leading icon allows toggling the completion state
-          leading: IconButton(
-            icon: _getIcon(todo.isCompleted),
-            onPressed: () => todoCubit.toggleCompletion(todo),
-          ),
-        ),
+            // Leading icon allows toggling the completion state
+            leading: _buildCheckBox(todo, todoCubit)),
       ),
     );
   }
@@ -53,24 +64,19 @@ class TodoListTile extends StatelessWidget {
     return Text(
       todo.name,
       style: TextStyle(
-        fontWeight: FontWeight.bold,
         decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
       ),
     );
   }
 
-  /// Returns the appropriate icon based on whether the todo is completed.
-  /// [isCompleted] determines if the checkbox is filled or outlined.
-  Icon _getIcon(bool isCompleted) {
-    return Icon(
-      isCompleted
-          ? Icons.check_box_rounded
-          : Icons.check_box_outline_blank_rounded,
-    );
+  Checkbox _buildCheckBox(Todo todo, TodoCubit cubit) {
+    return Checkbox(
+        value: todo.isCompleted,
+        onChanged: (value) => cubit.toggleCompletion(todo));
   }
 
   /// Displays the deadline of the todo as a subtitle.
   Text _buildDeadline(String deadline, BuildContext context) {
-    return Text('${context.loc.deadline} $deadline'.hardcoded);
+    return Text('${context.loc.deadline} $deadline');
   }
 }

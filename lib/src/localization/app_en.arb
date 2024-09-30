@@ -13,5 +13,7 @@
   "addTodo": "Add Todo",
   "title": "Title",
   "description": "Description",
-  "save": "Save"
+  "save": "Save",
+
+  "ok": "Ok"
 }

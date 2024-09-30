@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:todo_app/src/localization/string_hardcoded.dart';
+import 'package:todo_app/src/utils/extensions.dart';
 
 /// Generic function to show a platform-aware Material or Cupertino dialog
 Future<bool?> showAlertDialog({
@@ -10,7 +10,7 @@ Future<bool?> showAlertDialog({
   required String title,
   String? content,
   String? cancelActionText,
-  String defaultActionText = 'OK',
+  String? defaultActionText,
 }) async {
   if (kIsWeb || !Platform.isIOS) {
     return showDialog(
@@ -18,16 +18,17 @@ Future<bool?> showAlertDialog({
       builder: (context) => AlertDialog(
         title: Text(title),
         content: content != null ? Text(content) : null,
-        actions: <Widget>[
+        actions: [
           if (cancelActionText != null)
             TextButton(
               child: Text(cancelActionText),
               onPressed: () => Navigator.of(context).pop(false),
             ),
-          TextButton(
-            child: Text(defaultActionText),
-            onPressed: () => Navigator.of(context).pop(true),
-          ),
+          if (defaultActionText != null)
+            TextButton(
+              child: Text(defaultActionText),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
         ],
       ),
     );
@@ -37,16 +38,17 @@ Future<bool?> showAlertDialog({
     builder: (context) => CupertinoAlertDialog(
       title: Text(title),
       content: content != null ? Text(content) : null,
-      actions: <Widget>[
+      actions: [
         if (cancelActionText != null)
           CupertinoDialogAction(
             child: Text(cancelActionText),
             onPressed: () => Navigator.of(context).pop(false),
           ),
-        CupertinoDialogAction(
-          child: Text(defaultActionText),
-          onPressed: () => Navigator.of(context).pop(true),
-        ),
+        if (defaultActionText != null)
+          CupertinoDialogAction(
+            child: Text(defaultActionText),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
       ],
     ),
   );
@@ -62,5 +64,5 @@ Future<void> showExceptionAlertDialog({
       context: context,
       title: title,
       content: exception.toString(),
-      defaultActionText: 'OK'.hardcoded,
+      defaultActionText: context.loc.ok,
     );
