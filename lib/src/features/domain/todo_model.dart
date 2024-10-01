@@ -22,4 +22,20 @@ class Todo {
       deadline: deadline,
     );
   }
+
+  Todo copyWith({
+    int? id,
+    String? name,
+    String? description,
+    String? deadline,
+    bool? isCompleted,
+  }) {
+    return Todo(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      deadline: deadline ?? this.deadline,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 }

@@ -1,59 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/utils/extensions.dart';
+import 'package:todo_app/src/constants/app_sizes.dart';
+import 'package:todo_app/src/common/custom_icon_button.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/localization/string_hardcoded.dart';
+import 'package:todo_app/src/features/presentation/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/add_todo/add_todo_screen.dart';
 
 class TodoDetailScreen extends StatelessWidget {
+  final int todoId;
   final Todo todo;
 
-  const TodoDetailScreen({super.key, required this.todo});
+  const TodoDetailScreen({super.key, required this.todo, required this.todoId});
+
+  void _navigate(BuildContext context, Todo todo) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => AddTodoScreen(todo: todo),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<TodoCubit>();
+
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDetailItem('Title', todo.name),
-            const SizedBox(height: 8),
-            _buildDetailItem('Description', todo.description),
-            const SizedBox(height: 8),
-            _buildDetailItem('Deadline', todo.deadline),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    gapH12,
+                    _buildTopButtons(context, cubit),
+                    gapH24,
+                    _buildTitleSection(context, cubit),
+                    gapH8,
+                    Text(
+                      todo.description,
+                      style: context.txtTheme.bodyLarge!
+                          .copyWith(color: context.color.onSecondary),
+                    ),
+                    gapH24,
+                    _buildDeadline(context),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () => _navigate(context, todo),
+                child: Text(context.loc.editTodo),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  AppBar _buildAppBar(BuildContext ctx) {
-    return AppBar(
-      title: Text('Todo Details'.hardcoded),
-      actions: [
-        IconButton(
-          onPressed: () => _navigate(ctx),
-          icon: const Icon(Icons.edit),
+  Row _buildTopButtons(BuildContext context, TodoCubit cubit) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomIconButton(
+          icon: Icons.close,
+          onTap: () => Navigator.of(context).pop(),
+        ),
+        CustomIconButton(
+          color: context.color.error,
+          icon: Icons.delete,
+          onTap: () {
+            cubit.deleteTodo(todo.id);
+            Navigator.of(context).pop();
+          },
         ),
       ],
     );
   }
 
-  void _navigate(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddTodoScreen(),
-    ));
+  Row _buildTitleSection(BuildContext context, TodoCubit cubit) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(child: Text(todo.name, style: context.txtTheme.titleLarge)),
+        Checkbox(
+          value: todo.isCompleted,
+          onChanged: (value) => cubit.toggleCompletion(todo),
+        ),
+      ],
+    );
   }
 
-  Widget _buildDetailItem(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Row _buildDeadline(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 4),
-        Text(value, style: const TextStyle(fontSize: 14)),
+        Row(
+          children: [
+            const Icon(Icons.alarm_rounded, size: 25),
+            gapW8,
+            Text(context.loc.deadline, style: context.txtTheme.bodyLarge),
+          ],
+        ),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.p20,
+              vertical: Sizes.p12,
+            ),
+            child: Text(todo.deadline, style: context.txtTheme.bodyMedium),
+          ),
+        ),
       ],
     );
   }

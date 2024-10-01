@@ -10,6 +10,8 @@ abstract class TodoRepository {
   // Get All Todos
   Future<List<Todo>> getAllTodo();
 
+  // Get single Todo
+  Future<Todo?> getTodo(int id);
   // Add Todo
   Future<void> addTodo(Todo todo);
 

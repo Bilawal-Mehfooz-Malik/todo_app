@@ -7,7 +7,7 @@ import 'package:todo_app/src/utils/extensions.dart';
 /// Generic function to show a platform-aware Material or Cupertino dialog
 Future<bool?> showAlertDialog({
   required BuildContext context,
-  required String title,
+  String? title,
   String? content,
   String? cancelActionText,
   String? defaultActionText,
@@ -16,7 +16,7 @@ Future<bool?> showAlertDialog({
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(title),
+        title: title != null ? Text(title) : null,
         content: content != null ? Text(content) : null,
         actions: [
           if (cancelActionText != null)
@@ -25,7 +25,7 @@ Future<bool?> showAlertDialog({
               onPressed: () => Navigator.of(context).pop(false),
             ),
           if (defaultActionText != null)
-            TextButton(
+            ElevatedButton(
               child: Text(defaultActionText),
               onPressed: () => Navigator.of(context).pop(true),
             ),
@@ -36,7 +36,7 @@ Future<bool?> showAlertDialog({
   return showCupertinoDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
-      title: Text(title),
+      title: title != null ? Text(title) : null,
       content: content != null ? Text(content) : null,
       actions: [
         if (cancelActionText != null)
@@ -57,7 +57,7 @@ Future<bool?> showAlertDialog({
 /// Generic function to show a platform-aware Material or Cupertino error dialog
 Future<void> showExceptionAlertDialog({
   required BuildContext context,
-  required String title,
+  String? title,
   required dynamic exception,
 }) =>
     showAlertDialog(
