@@ -40,7 +40,7 @@ class TodoListTile extends StatelessWidget {
     final todoCubit = context.read<TodoCubit>();
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: Dismissible(
         // Dismissible allows the user to swipe the tile to delete the todo
         background: Container(color: context.color.error),

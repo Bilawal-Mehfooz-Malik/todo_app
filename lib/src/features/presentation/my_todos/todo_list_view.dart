@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
 import 'package:todo_app/src/features/presentation/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/my_tasks/task_list_tile.dart';
+import 'package:todo_app/src/features/presentation/my_todos/task_list_tile.dart';
 import 'package:todo_app/src/features/presentation/todo_details/todo_detail_screen.dart';
 
 class TodoListView extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:todo_app/src/theme/dark_theme.dart';
 
 // local imports
 import 'package:todo_app/src/utils/extensions.dart';
-import 'package:todo_app/src/features/presentation/my_tasks/my_todo_screen.dart';
+import 'package:todo_app/src/features/presentation/my_todos/my_todo_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

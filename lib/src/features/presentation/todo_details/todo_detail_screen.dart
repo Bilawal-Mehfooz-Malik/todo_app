@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/add_tasks/add_todo_screen.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
+import 'package:todo_app/src/features/presentation/add_todo/add_todo_screen.dart';
 
 class TodoDetailScreen extends StatelessWidget {
   final Todo todo;
