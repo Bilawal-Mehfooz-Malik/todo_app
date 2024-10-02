@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/utils/date_formatter.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/custom_icon_button.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/todo_cubit.dart';
+import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/add_todo/add_todo_screen.dart';
 
 class TodoDetailScreen extends StatelessWidget {
@@ -109,7 +110,10 @@ class TodoDetailScreen extends StatelessWidget {
               horizontal: Sizes.p20,
               vertical: Sizes.p12,
             ),
-            child: Text(todo.deadline, style: context.txtTheme.bodyMedium),
+            child: Text(
+              kDateFormatter.format(todo.deadline),
+              style: context.txtTheme.bodyMedium,
+            ),
           ),
         ),
       ],

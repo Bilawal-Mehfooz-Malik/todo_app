@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_app/src/features/data/isar_todo.dart';
 import 'package:todo_app/src/features/data/isar_repository.dart';
-import 'package:todo_app/src/features/presentation/todo_cubit.dart';
+import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
+import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,16 @@ void main() async {
   final repo = IsarRepository(isar);
 
   runApp(
-      BlocProvider(create: (context) => TodoCubit(repo), child: const MyApp()));
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<TodoCubit>(
+          create: (BuildContext context) => TodoCubit(repo),
+        ),
+        BlocProvider<DateCubit>(create: (BuildContext context) => DateCubit()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 void registerErrorHandlers() {

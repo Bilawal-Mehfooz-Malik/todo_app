@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 
 /// Generic function to show a platform-aware Material or Cupertino dialog
-Future<bool?> showAlertDialog({
+Future<bool?> showCustomAlertDialog({
   required BuildContext context,
   String? title,
   String? content,
@@ -60,7 +60,7 @@ Future<void> showExceptionAlertDialog({
   String? title,
   required dynamic exception,
 }) =>
-    showAlertDialog(
+    showCustomAlertDialog(
       context: context,
       title: title,
       content: exception.toString(),

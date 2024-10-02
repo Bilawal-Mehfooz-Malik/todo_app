@@ -9,7 +9,7 @@ class IsarTodo {
   Id id = Isar.autoIncrement;
   late String name;
   late String description;
-  late String deadline;
+  late DateTime deadline;
   late bool isCompleted;
 
   Todo toDomain() {

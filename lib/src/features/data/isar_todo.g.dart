@@ -20,7 +20,7 @@ const IsarTodoSchema = CollectionSchema(
     r'deadline': PropertySchema(
       id: 0,
       name: r'deadline',
-      type: IsarType.string,
+      type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
       id: 1,
@@ -58,7 +58,6 @@ int _isarTodoEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.deadline.length * 3;
   bytesCount += 3 + object.description.length * 3;
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
@@ -70,7 +69,7 @@ void _isarTodoSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.deadline);
+  writer.writeDateTime(offsets[0], object.deadline);
   writer.writeString(offsets[1], object.description);
   writer.writeBool(offsets[2], object.isCompleted);
   writer.writeString(offsets[3], object.name);
@@ -83,7 +82,7 @@ IsarTodo _isarTodoDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = IsarTodo();
-  object.deadline = reader.readString(offsets[0]);
+  object.deadline = reader.readDateTime(offsets[0]);
   object.description = reader.readString(offsets[1]);
   object.id = id;
   object.isCompleted = reader.readBool(offsets[2]);
@@ -99,7 +98,7 @@ P _isarTodoDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -201,54 +200,46 @@ extension IsarTodoQueryWhere on QueryBuilder<IsarTodo, IsarTodo, QWhereClause> {
 extension IsarTodoQueryFilter
     on QueryBuilder<IsarTodo, IsarTodo, QFilterCondition> {
   QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'deadline',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineGreaterThan(
-    String value, {
+    DateTime value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'deadline',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineLessThan(
-    String value, {
+    DateTime value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'deadline',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineBetween(
-    String lower,
-    String upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -257,75 +248,6 @@ extension IsarTodoQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'deadline',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'deadline',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'deadline',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'deadline',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'deadline',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<IsarTodo, IsarTodo, QAfterFilterCondition> deadlineIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'deadline',
-        value: '',
       ));
     });
   }
@@ -776,10 +698,9 @@ extension IsarTodoQuerySortThenBy
 
 extension IsarTodoQueryWhereDistinct
     on QueryBuilder<IsarTodo, IsarTodo, QDistinct> {
-  QueryBuilder<IsarTodo, IsarTodo, QDistinct> distinctByDeadline(
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarTodo, IsarTodo, QDistinct> distinctByDeadline() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'deadline', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'deadline');
     });
   }
 
@@ -812,7 +733,7 @@ extension IsarTodoQueryProperty
     });
   }
 
-  QueryBuilder<IsarTodo, String, QQueryOperations> deadlineProperty() {
+  QueryBuilder<IsarTodo, DateTime, QQueryOperations> deadlineProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'deadline');
     });

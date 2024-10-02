@@ -7,10 +7,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/utils/date_formatter.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/todo_cubit.dart';
+import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/todo_details/todo_detail_screen.dart';
 
 class TodoListTile extends StatelessWidget {
@@ -32,7 +33,7 @@ class TodoListTile extends StatelessWidget {
     DismissDirection direction,
   ) async {
     if (direction == DismissDirection.endToStart) {
-      final result = await showAlertDialog(
+      final result = await showCustomAlertDialog(
         context: context,
         title: context.loc.todoDelete,
         content: context.loc.deleteTodoBody,
@@ -95,7 +96,7 @@ class TodoListTile extends StatelessWidget {
   }
 
   /// Displays the deadline of the todo as a subtitle.
-  Text _buildDeadline(String deadline, BuildContext context) {
-    return Text('${context.loc.deadline} $deadline');
+  Text _buildDeadline(DateTime deadline, BuildContext context) {
+    return Text('${context.loc.deadline} ${kDateFormatter.format(deadline)}');
   }
 }

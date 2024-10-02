@@ -27,11 +27,10 @@ final darkTheme = ThemeData(
     tileColor: darkSecondaryColor,
     titleTextStyle: TextStyle(
       color: darkOnSurfaceColor,
-      fontSize: 18,
       fontWeight: FontWeight.normal,
       decorationThickness: 2,
     ),
-    subtitleTextStyle: TextStyle(color: darkOnSecondaryColor, fontSize: 16),
+    subtitleTextStyle: TextStyle(color: darkOnSecondaryColor),
     shape: _shape,
   ),
 
@@ -51,8 +50,12 @@ final darkTheme = ThemeData(
   dialogTheme: const DialogTheme(
     shape: _shape,
     backgroundColor: darkSecondaryColor,
-    contentTextStyle: TextStyle(color: darkOnPrimaryColor),
+    contentTextStyle: TextStyle(color: darkOnSecondaryColor),
   ),
+
+  // [Date Picker Theme]
+  datePickerTheme:
+      const DatePickerThemeData(backgroundColor: darkSecondaryColor),
 
   // [Icon Button Theme]
   iconButtonTheme: const IconButtonThemeData(
@@ -63,4 +66,11 @@ final darkTheme = ThemeData(
 
   // [Card Theme]
   cardTheme: const CardTheme(color: darkSecondaryColor, shape: _shape),
+
+  // [Text Button Theme]
+  textButtonTheme: const TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: WidgetStatePropertyAll(darkOnPrimaryColor),
+    ),
+  ),
 );

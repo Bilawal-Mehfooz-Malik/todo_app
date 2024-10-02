@@ -2,7 +2,7 @@ class Todo {
   final int id;
   final String name;
   final String description;
-  final String deadline;
+  final DateTime deadline;
   final bool isCompleted;
 
   Todo({
@@ -27,7 +27,7 @@ class Todo {
     int? id,
     String? name,
     String? description,
-    String? deadline,
+    DateTime? deadline,
     bool? isCompleted,
   }) {
     return Todo(

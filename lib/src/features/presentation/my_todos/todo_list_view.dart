@@ -4,8 +4,8 @@ import 'package:todo_app/src/common/message.dart';
 import 'package:todo_app/src/common/loading.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/todo_state.dart';
+import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/presentation/cubits/todo_state.dart';
 import 'package:todo_app/src/features/presentation/my_todos/task_list_tile.dart';
 
 class TodoListView extends StatelessWidget {

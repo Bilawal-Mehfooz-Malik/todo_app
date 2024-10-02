@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/src/common/alert_dialogues.dart';
+import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
+import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/common/custom_text_field.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
-import 'package:todo_app/src/features/presentation/todo_cubit.dart';
+import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/presentation/add_todo/date_section.dart';
 
 class AddTodoScreen extends StatefulWidget {
   const AddTodoScreen({super.key, this.todo});
@@ -42,14 +44,15 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            widget.todo == null ? context.loc.addTodo : context.loc.editTodo),
+          widget.todo == null ? context.loc.addTodo : context.loc.editTodo,
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(Sizes.p12),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+          child: ListView(
             children: [
+              gapH8,
               CustomTextField(
                 label: context.loc.title,
                 controller: _titleController,
@@ -62,11 +65,18 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 controller: _descriptionController,
               ),
               gapH16,
+              // Handle null case properly for DateSection
+              DateSection(deadline: widget.todo?.deadline),
+              gapH16,
 
               // Save Todo Button
-              CustomElevatedButton(
-                text: context.loc.save,
-                onPressed: () => _saveTodo(context),
+              BlocBuilder<DateCubit, DateTime?>(
+                builder: (context, deadline) {
+                  return CustomElevatedButton(
+                    text: context.loc.save,
+                    onPressed: () => _saveTodo(context, deadline),
+                  );
+                },
               ),
               gapH4,
             ],
@@ -76,7 +86,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     );
   }
 
-  void _saveTodo(BuildContext context) async {
+  void _saveTodo(BuildContext context, DateTime? deadline) async {
     final title = _titleController.text;
     final detail = _descriptionController.text;
 
@@ -87,11 +97,18 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
       return;
     }
 
+    if (deadline == null) {
+      showExceptionAlertDialog(
+          context: context, exception: context.loc.notPickedDeadline);
+      return;
+    }
+
     if (widget.todo != null) {
       // Edit the existing Todo (use the same id)
       Todo updatedTodo = widget.todo!.copyWith(
         name: title,
         description: detail,
+        deadline: deadline,
       );
 
       await context.read<TodoCubit>().editTodo(updatedTodo);
@@ -106,7 +123,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         id: DateTime.now().millisecondsSinceEpoch,
         name: title,
         description: detail,
-        deadline: '1-01-2022',
+        deadline: deadline,
       );
 
       await context.read<TodoCubit>().addTodo(newTodo);
