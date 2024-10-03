@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/common/custom_text_field.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
+import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/add_todo/date_section.dart';
+import 'package:todo_app/src/features/presentation/add_todo/deadline_section.dart';
 
 class AddTodoScreen extends StatefulWidget {
   const AddTodoScreen({super.key, this.todo});
@@ -66,7 +66,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               ),
               gapH16,
               // Handle null case properly for DateSection
-              DateSection(deadline: widget.todo?.deadline),
+              DeadlineSection(deadline: widget.todo?.deadline),
               gapH16,
 
               // Save Todo Button

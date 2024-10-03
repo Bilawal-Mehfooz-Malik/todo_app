@@ -5,15 +5,15 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/utils/date_formatter.dart';
 import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 
-class DateSection extends StatefulWidget {
+class DeadlineSection extends StatefulWidget {
   final DateTime? deadline;
-  const DateSection({super.key, required this.deadline});
+  const DeadlineSection({super.key, required this.deadline});
 
   @override
-  State<DateSection> createState() => _DateSectionState();
+  State<DeadlineSection> createState() => _DeadlineSectionState();
 }
 
-class _DateSectionState extends State<DateSection> {
+class _DeadlineSectionState extends State<DeadlineSection> {
   @override
   void initState() {
     super.initState();

@@ -22,7 +22,7 @@ class TodoListTile extends StatelessWidget {
   void _onTap(BuildContext context, Todo todo) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TodoDetailScreen(todo: todo, todoId: todo.id),
+        builder: (context) => TodoDetailScreen(todo: todo),
       ),
     );
   }

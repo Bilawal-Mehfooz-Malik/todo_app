@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-// local imports
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/presentation/my_todos/todo_list_view.dart';
 import 'package:todo_app/src/features/presentation/add_todo/add_todo_screen.dart';
