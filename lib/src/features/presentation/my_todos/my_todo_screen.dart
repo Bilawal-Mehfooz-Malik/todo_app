@@ -18,9 +18,9 @@ class MyTodoScreen extends StatelessWidget {
   FloatingActionButton _floatingActionButton(BuildContext context) {
     return FloatingActionButton(
       child: const Icon(Icons.add),
-      onPressed: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const AddTodoScreen()),
-      ),
+      onPressed: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => const AddTodoScreen())),
     );
   }
 }

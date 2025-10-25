@@ -61,9 +61,7 @@ class TodoListView extends StatelessWidget {
     String? emptyMessage,
   }) {
     if (todos.isEmpty && emptyMessage != null) {
-      return Expanded(
-        child: CenteredMessage(message: emptyMessage),
-      );
+      return Expanded(child: CenteredMessage(message: emptyMessage));
     }
 
     return Expanded(
@@ -89,11 +87,10 @@ class TodoListView extends StatelessWidget {
       margin: const EdgeInsetsDirectional.only(bottom: Sizes.p8),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            vertical: Sizes.p8, horizontal: Sizes.p16),
-        child: Text(
-          title,
-          style: context.txtTheme.titleMedium,
+          vertical: Sizes.p8,
+          horizontal: Sizes.p16,
         ),
+        child: Text(title, style: context.txtTheme.titleMedium),
       ),
     );
   }

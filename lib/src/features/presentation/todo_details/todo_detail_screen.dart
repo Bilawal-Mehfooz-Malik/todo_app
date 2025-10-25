@@ -15,9 +15,9 @@ class TodoDetailScreen extends StatelessWidget {
   const TodoDetailScreen({super.key, required this.todo});
 
   void _navigateToEdit(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => AddTodoScreen(todo: todo),
-    ));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => AddTodoScreen(todo: todo)));
   }
 
   Future<void> _onDelete(BuildContext context) async {
@@ -90,18 +90,16 @@ class TodoDetailScreen extends StatelessWidget {
   Widget _buildDescription(BuildContext context) {
     return Text(
       todo.description,
-      style: context.txtTheme.bodyLarge!
-          .copyWith(color: context.color.onSecondary),
+      style: context.txtTheme.bodyLarge!.copyWith(
+        color: context.color.onSecondary,
+      ),
     );
   }
 
   Widget _buildDeadlineRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildDeadlineLabel(context),
-        _buildDeadlineCard(context),
-      ],
+      children: [_buildDeadlineLabel(context), _buildDeadlineCard(context)],
     );
   }
 

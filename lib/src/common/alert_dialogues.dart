@@ -59,10 +59,9 @@ Future<void> showExceptionAlertDialog({
   required BuildContext context,
   String? title,
   required dynamic exception,
-}) =>
-    showCustomAlertDialog(
-      context: context,
-      title: title,
-      content: exception.toString(),
-      defaultActionText: context.loc.ok,
-    );
+}) => showCustomAlertDialog(
+  context: context,
+  title: title,
+  content: exception.toString(),
+  defaultActionText: context.loc.ok,
+);

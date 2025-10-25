@@ -21,9 +21,7 @@ class TodoListTile extends StatelessWidget {
 
   void _onTap(BuildContext context, Todo todo) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => TodoDetailScreen(todo: todo),
-      ),
+      MaterialPageRoute(builder: (context) => TodoDetailScreen(todo: todo)),
     );
   }
 
@@ -91,8 +89,9 @@ class TodoListTile extends StatelessWidget {
 
   Checkbox _buildCheckBox(Todo todo, TodoCubit cubit) {
     return Checkbox(
-        value: todo.isCompleted,
-        onChanged: (value) => cubit.toggleCompletion(todo));
+      value: todo.isCompleted,
+      onChanged: (value) => cubit.toggleCompletion(todo),
+    );
   }
 
   /// Displays the deadline of the todo as a subtitle.
