@@ -1,7 +1,6 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
 
-// to generate isar todo: run-> dart run build_runner build
 part 'isar_todo.g.dart';
 
 @collection

@@ -2,28 +2,45 @@
   "@@locale": "en", 
 
   "app_title": "TODO",
-  "@appTitle": {
+  "@app_title": {
     "description": "The title of the application"
   },
 
   "myTodos": "My Todos",
+  "@myTodos": {},
   "deadline": "Deadline:",
+  "@deadline": {},
   "noTodoFound": "No todo found",
+  "@noTodoFound": {},
 
   "addTodo": "Add Todo",
+  "@addTodo": {},
   "title": "Title",
+  "@title": {},
   "description": "Description",
+  "@description": {},
   "save": "Save",
+  "@save": {},
   "emptyTitleDesc": "Title or description is empty.",
+  "@emptyTitleDesc": {},
   "notChoosed": "not choosed",
+  "@notChoosed": {},
   "notPickedDeadline":"Deadline is empty.",
+  "@notPickedDeadline": {},
 
   "todoDelete": "Todo Delete!",
+  "@todoDelete": {},
   "deleteTodoBody": "Are you sure you want to delete this todo.",
+  "@deleteTodoBody": {},
   "completedTodos": "Completed Todos",
+  "@completedTodos": {},
 
   "ok": "Ok",
+  "@ok": {},
   "cancel": "Cancel",
+  "@cancel": {},
   "delete": "Delete",
-  "editTodo": "Edit Todo"
+  "@delete": {},
+  "editTodo": "Edit Todo",
+  "@editTodo": {}
 }

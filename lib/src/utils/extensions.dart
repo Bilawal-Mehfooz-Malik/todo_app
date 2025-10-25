@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todo_app/src/localization/app_localizations.dart';
 
 // extension to reduce boilerplate code for using localized text
 extension LocalizationExtension on BuildContext {

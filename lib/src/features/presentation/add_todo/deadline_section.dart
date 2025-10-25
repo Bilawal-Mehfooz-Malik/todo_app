@@ -66,7 +66,7 @@ class _DeadlineSectionState extends State<DeadlineSection> {
       builder: (context) {
         return DatePickerDialog(
           firstDate: DateTime.now(),
-          lastDate: DateTime(2025),
+          lastDate: DateTime(2100),
           initialDate: DateTime.now(),
           keyboardType: TextInputType.datetime,
         );

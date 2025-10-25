@@ -71,12 +71,10 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
 
               // Save Todo Button
               BlocBuilder<DateCubit, DateTime?>(
-                builder: (context, deadline) {
-                  return CustomElevatedButton(
-                    text: context.loc.save,
-                    onPressed: () => _saveTodo(context, deadline),
-                  );
-                },
+                builder: (context, deadline) => CustomElevatedButton(
+                  text: context.loc.save,
+                  onPressed: () => _saveTodo(context, deadline),
+                ),
               ),
               gapH4,
             ],
@@ -93,13 +91,17 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     // Check for empty fields
     if (title.isEmpty || detail.isEmpty) {
       showExceptionAlertDialog(
-          context: context, exception: context.loc.emptyTitleDesc);
+        context: context,
+        exception: context.loc.emptyTitleDesc,
+      );
       return;
     }
 
     if (deadline == null) {
       showExceptionAlertDialog(
-          context: context, exception: context.loc.notPickedDeadline);
+        context: context,
+        exception: context.loc.notPickedDeadline,
+      );
       return;
     }
 

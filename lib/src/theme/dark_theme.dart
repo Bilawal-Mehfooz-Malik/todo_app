@@ -3,7 +3,8 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/theme/colors.dart';
 
 const _shape = RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)));
+  borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
+);
 
 final darkTheme = ThemeData(
   useMaterial3: true,
@@ -47,25 +48,24 @@ final darkTheme = ThemeData(
   ),
 
   // [Dialog theme]
-  dialogTheme: const DialogTheme(
+  dialogTheme: const DialogThemeData(
     shape: _shape,
     backgroundColor: darkSecondaryColor,
     contentTextStyle: TextStyle(color: darkOnSecondaryColor),
   ),
 
   // [Date Picker Theme]
-  datePickerTheme:
-      const DatePickerThemeData(backgroundColor: darkSecondaryColor),
+  datePickerTheme: const DatePickerThemeData(
+    backgroundColor: darkSecondaryColor,
+  ),
 
   // [Icon Button Theme]
   iconButtonTheme: const IconButtonThemeData(
-    style: ButtonStyle(
-      padding: WidgetStatePropertyAll(EdgeInsets.zero),
-    ),
+    style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero)),
   ),
 
   // [Card Theme]
-  cardTheme: const CardTheme(color: darkSecondaryColor, shape: _shape),
+  cardTheme: const CardThemeData(color: darkSecondaryColor, shape: _shape),
 
   // [Text Button Theme]
   textButtonTheme: const TextButtonThemeData(

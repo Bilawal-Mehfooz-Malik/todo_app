@@ -1,5 +1,6 @@
+import 'package:isar_community/isar.dart';
+
 import 'src/app.dart';
-import 'package:isar/isar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'src/localization/string_hardcoded.dart';

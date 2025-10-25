@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todo_app/src/theme/dark_theme.dart';
+import 'package:todo_app/src/localization/app_localizations.dart';
 
-// local imports
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/presentation/my_todos/my_todo_screen.dart';
 
