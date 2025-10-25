@@ -52,5 +52,5 @@ flutter:
   generate: true
 
   assets:
-    # Add assets from the images directory to the application.
     - assets/
+    - shorebird.yaml
