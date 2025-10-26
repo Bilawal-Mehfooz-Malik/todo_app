@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deadline => 'Deadline:';
 
   @override
-  String get noTodoFound => 'No todo found';
+  String get noTodoFound => 'No task found';
 
   @override
   String get addTodo => 'Add Todo';

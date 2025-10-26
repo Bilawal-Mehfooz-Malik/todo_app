@@ -115,7 +115,7 @@ abstract class AppLocalizations {
   /// No description provided for @noTodoFound.
   ///
   /// In en, this message translates to:
-  /// **'No todo found'**
+  /// **'No task found'**
   String get noTodoFound;
 
   /// No description provided for @addTodo.

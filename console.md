@@ -1,17 +1,24 @@
-I/flutter ( 1892): ╔═══════════════════════════════════════════════════════════════════╗
-I/flutter ( 1892): ║                       ISAR CONNECT STARTED                        ║
-I/flutter ( 1892): ╟───────────────────────────────────────────────────────────────────╢
-I/flutter ( 1892): ║               Open the link to connect to the Isar                ║
-I/flutter ( 1892): ║              Inspector while this build is running.               ║
-I/flutter ( 1892): ╟───────────────────────────────────────────────────────────────────╢
-I/flutter ( 1892): ║ https://inspect.isar-community.dev/3.3.0-dev.3/#/2982/7oKdBMwTBjU ║
-I/flutter ( 1892): ╚═══════════════════════════════════════════════════════════════════╝
-W/isarworker( 1892): type=1400 audit(0.0:425): avc:  denied  { getattr } for  path="/system_dlkm" dev="dm-4" ino=38 scontext=u:r:untrusted_app:s0:c212,c256,c512,c768 tcontext=u:object_r:system_dlkm_file:s0 tclass=dir permissive=0 app=com.example.todo_app
-W/isarworker( 1892): type=1400 audit(0.0:426): avc:  denied  { getattr } for  path="/apex/apex-info-list.xml" dev="tmpfs" ino=88 scontext=u:r:untrusted_app:s0:c212,c256,c512,c768 tcontext=u:object_r:apex_info_file:s0 tclass=file permissive=0 app=com.example.todo_app
-W/isarworker( 1892): type=1400 audit(0.0:427): avc:  denied  { getattr } for  path="/bootstrap-apex/apex-info-list.xml" dev="tmpfs" ino=11 scontext=u:r:untrusted_app:s0:c212,c256,c512,c768 tcontext=u:object_r:apex_info_file:s0 tclass=file permissive=0 app=com.example.todo_app
-W/isarworker( 1892): type=1400 audit(0.0:428): avc:  denied  { getattr } for  path="/linkerconfig" dev="tmpfs" ino=3 scontext=u:r:untrusted_app:s0:c212,c256,c512,c768 tcontext=u:object_r:linkerconfig_file:s0 tclass=dir permissive=0 app=com.example.todo_app
-I/flutter ( 1892): [$level] [${DateTime.now()}] $message
-D/EGL_emulation( 1892): app_time_stats: avg=15651.18ms min=15651.18ms max=15651.18ms count=1
-I/flutter ( 1892): [$level] [${DateTime.now()}] $message
-I/Choreographer( 1892): Skipped 32 frames!  The application may be doing too much work on its main thread.
-D/EGL_emulation( 1892): app_time_stats: avg=1891.10ms min=1891.10ms max=1891.10ms count=1
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Users\Bilawal Mehfooz> shorebird login:ci
+Choose an auth provider Google
+The Shorebird CLI needs your authorization to manage apps, releases, and patches on your behalf.
+
+In a browser, visit this URL to log in:
+
+https://accounts.google.com/o/oauth2/v2/auth?client_id=523302233293-eia5antm0tgvek240t46orctktiabrek.apps.googleusercontent.com&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A6283&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&code_challenge=4qngR4AeYqozkx179NGzx0mcPsYp1a3hnF8RHtugHbA&code_challenge_method=S256&state=5wzZySrpmXJXM0Ms6ZJU8PF-eNLD0L2H
+
+Waiting for your authorization...
+
+🎉 Success! Use the following token to login on a CI server:
+
+eyJyZWZyZXNoX3Rva2VuIjoiMS8vMDlBZnVLVmM0OGJhbkNnWUlBUkFBR0FrU053Ri1MOUlyY040QlNLdmhTVElLUHNxYnY0bEw3OXN2NzM2RTZuVE5Pby1nYUM2VGdxdTNoWlBTSGtTekYwYmw4dkhHYUc4aDR4SSIsImF1dGhfcHJvdmlkZXIiOiJnb29nbGUifQ==
+
+Example:
+
+export SHOREBIRD_TOKEN="$SHOREBIRD_TOKEN" && shorebird patch android
+
+PS C:\Users\Bilawal Mehfooz>

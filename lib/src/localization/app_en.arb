@@ -10,7 +10,7 @@
   "@myTodos": {},
   "deadline": "Deadline:",
   "@deadline": {},
-  "noTodoFound": "No todo found",
+  "noTodoFound": "No task found",
   "@noTodoFound": {},
 
   "addTodo": "Add Todo",
