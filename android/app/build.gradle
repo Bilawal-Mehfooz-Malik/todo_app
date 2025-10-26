@@ -64,7 +64,7 @@ android {
             firebaseAppDistribution {
                 appId = "1:273380534383:android:659f81529a4d2991e5459a"
                 serviceCredentialsFile = System.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH") // This path will be set by Codemagic
-                releaseNotes = "Version $versionName ($versionCode) - Distributed via Codemagic CI/CD."
+                releaseNotes = "New build distributed via Codemagic CI/CD."
                 groups = "qa-team"
             }
         }
