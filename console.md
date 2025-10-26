@@ -1,24 +1,50 @@
-Windows PowerShell
-Copyright (C) Microsoft Corporation. All rights reserved.
+Showing the last 50 lines. Click this button to load the full log
+  xdg_directories 1.0.4 (1.1.0 available)
+  xml 6.5.0 (6.6.1 available)
+  xxh3 1.0.1 (1.2.0 available)
+  yaml 3.1.2 (3.1.3 available)
+Got dependencies!
+60 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Running Gradle task 'bundleDebug'...                            
+Exception in thread "main" java.io.FileNotFoundException: /E:/Common/Apps/gradle-8.10.2-bin.zip (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(Unknown Source)
+	at java.base/java.io.FileInputStream.<init>(Unknown Source)
+	at java.base/java.io.FileInputStream.<init>(Unknown Source)
+	at java.base/sun.net.www.protocol.file.FileURLConnection.connect(Unknown Source)
+	at java.base/sun.net.www.protocol.file.FileURLConnection.getInputStream(Unknown Source)
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:58)
+	at org.gradle.wrapper.Download.download(Download.java:44)
+	at org.gradle.wrapper.Install$1.call(Install.java:61)
+	at org.gradle.wrapper.Install$1.call(Install.java:48)
+	at org.gradle.wrapper.ExclusiveFileAccessManager.access(ExclusiveFileAccessManager.java:65)
+	at org.gradle.wrapper.Install.createDist(Install.java:48)
+	at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:128)
+	at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:61)
+Running Gradle task 'bundleDebug'...                               128ms
+[!] Gradle threw an error while downloading artifacts from the network.
+Retrying Gradle Build: #1, wait time: 100ms
+Running Gradle task 'bundleDebug'...                            
+Exception in thread "main" java.io.FileNotFoundException: /E:/Common/Apps/gradle-8.10.2-bin.zip (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(Unknown Source)
+	at java.base/java.io.FileInputStream.<init>(Unknown Source)
+	at java.base/java.io.FileInputStream.<init>(Unknown Source)
+	at java.base/sun.net.www.protocol.file.FileURLConnection.connect(Unknown Source)
+	at java.base/sun.net.www.protocol.file.FileURLConnection.getInputStream(Unknown Source)
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:58)
+	at org.gradle.wrapper.Download.download(Download.java:44)
+	at org.gradle.wrapper.Install$1.call(Install.java:61)
+	at org.gradle.wrapper.Install$1.call(Install.java:48)
+	at org.gradle.wrapper.ExclusiveFileAccessManager.access(ExclusiveFileAccessManager.java:65)
+	at org.gradle.wrapper.Install.createDist(Install.java:48)
+	at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:128)
+	at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:61)
+Running Gradle task 'bundleDebug'...                               120ms
+[!] Gradle threw an error while downloading artifacts from the network.
+Gradle task bundleDebug failed with exit code 1
 
-Try the new cross-platform PowerShell https://aka.ms/pscore6
 
-PS C:\Users\Bilawal Mehfooz> shorebird login:ci
-Choose an auth provider Google
-The Shorebird CLI needs your authorization to manage apps, releases, and patches on your behalf.
-
-In a browser, visit this URL to log in:
-
-https://accounts.google.com/o/oauth2/v2/auth?client_id=523302233293-eia5antm0tgvek240t46orctktiabrek.apps.googleusercontent.com&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A6283&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&code_challenge=4qngR4AeYqozkx179NGzx0mcPsYp1a3hnF8RHtugHbA&code_challenge_method=S256&state=5wzZySrpmXJXM0Ms6ZJU8PF-eNLD0L2H
-
-Waiting for your authorization...
-
-🎉 Success! Use the following token to login on a CI server:
-
-eyJyZWZyZXNoX3Rva2VuIjoiMS8vMDlBZnVLVmM0OGJhbkNnWUlBUkFBR0FrU053Ri1MOUlyY040QlNLdmhTVElLUHNxYnY0bEw3OXN2NzM2RTZuVE5Pby1nYUM2VGdxdTNoWlBTSGtTekYwYmw4dkhHYUc4aDR4SSIsImF1dGhfcHJvdmlkZXIiOiJnb29nbGUifQ==
-
-Example:
-
-export SHOREBIRD_TOKEN="$SHOREBIRD_TOKEN" && shorebird patch android
-
-PS C:\Users\Bilawal Mehfooz>
+Build failed :|
+Failed to build for Android
