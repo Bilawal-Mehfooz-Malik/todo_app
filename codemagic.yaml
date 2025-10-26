@@ -1,0 +1,87 @@
+# codemagic.yaml
+# This file defines the CI/CD workflow for Codemagic.
+# You will need to configure the encrypted environment variables in the Codemagic UI.
+
+workflows:
+  android-app-distribution:
+    name: Android App Distribution
+    environment:
+      # This variable determines whether to build with 'flutter' or 'shorebird'.
+      # You can set this in the Codemagic UI for each build.
+      vars:
+        BUILD_TOOL: "shorebird"
+      # Securely store your Firebase service account key in Codemagic
+      # as an encrypted variable named FIREBASE_SERVICE_ACCOUNT_KEY.
+      # Also add your SHOREBIRD_TOKEN as a secure variable.
+      encrypted:
+        - FIREBASE_SERVICE_ACCOUNT_KEY
+        - SHOREBIRD_TOKEN
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+
+    scripts:
+      - name: Install Shorebird CLI
+        script: |
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+      - name: Set up key file
+        script: |
+          # Create a temporary file for the service account key from the environment variable
+          echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
+          # Set an environment variable for the gradle task to use
+          echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
+
+      - name: Set up Flutter
+        script: |
+          flutter doctor
+          flutter pub get
+
+      - name: Conditional Build (APK)
+        script: |
+          if [ "$BUILD_TOOL" = "shorebird" ]; then
+            echo "Building with Shorebird..."
+            shorebird build apk --release
+          else
+            echo "Building with Flutter..."
+            flutter build apk --release
+          fi
+
+      - name: Distribute to Firebase App Distribution
+        script: |
+          echo "Uploading to Firebase App Distribution..."
+          cd android
+          ./gradlew appDistributionUploadRelease
+
+    artifacts:
+      - build/app/outputs/apk/release/*.apk
+
+  android-patch-distribution:
+    name: Android Patch Distribution
+    # This workflow is triggered when a tag starting with 'patch-android-' is pushed.
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: 'patch-android-*'
+          include: true
+
+    scripts:
+      - name: Install Shorebird CLI
+        script: |
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+      - name: Set up Flutter
+        script: |
+          flutter doctor
+          flutter pub get
+
+      - name: Release Shorebird Patch
+        script: |
+          echo "Releasing patch to Shorebird..."
+          shorebird patch apk --release
