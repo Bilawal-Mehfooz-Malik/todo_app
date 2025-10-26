@@ -25,10 +25,10 @@ workflows:
       - name: Set up key file
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
+          # Set standard Google Cloud variable for tools like FlutterFire
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
+          # Set variable for Gradle task
           echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
-      - name: Authenticate with Google Cloud
-        script: |
-          gcloud auth activate-service-account --key-file=$CM_BUILD_DIR/firebase_service_account_key.json
       - name: Set up Flutter
         script: |
           flutter doctor
@@ -75,9 +75,8 @@ workflows:
       - name: Set up key file
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
-      - name: Authenticate with Google Cloud
-        script: |
-          gcloud auth activate-service-account --key-file=$CM_BUILD_DIR/firebase_service_account_key.json
+          # Set standard Google Cloud variable for tools like FlutterFire
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
       - name: Set up Flutter
         script: |
           flutter doctor
