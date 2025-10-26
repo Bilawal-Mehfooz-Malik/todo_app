@@ -6,6 +6,7 @@ workflows:
   android-app-distribution:
     name: Android App Distribution
     environment:
+      flutter: 3.35.4
       vars:
         BUILD_TOOL: "shorebird"
       groups:
@@ -16,12 +17,8 @@ workflows:
       branch_patterns:
         - pattern: 'main'
           include: true
+          source: true
     scripts:
-      - name: DEBUG - List Environment Variables
-        script: |
-          echo "--- Listing available environment variables ---"
-          printenv | sort
-          echo "-------------------------------------------"
       - name: Install Shorebird CLI
         script: |
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
@@ -62,6 +59,7 @@ workflows:
   android-patch-distribution:
     name: Android Patch Distribution
     environment:
+      flutter: 3.35.4
       groups:
         - firebase_secrets
     triggering:
