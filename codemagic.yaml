@@ -16,8 +16,12 @@ workflows:
       branch_patterns:
         - pattern: 'main'
           include: true
-          source: true
     scripts:
+      - name: DEBUG - List Environment Variables
+        script: |
+          echo "--- Listing available environment variables ---"
+          printenv | sort
+          echo "-------------------------------------------"
       - name: Install Shorebird CLI
         script: |
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
