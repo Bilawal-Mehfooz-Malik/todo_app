@@ -38,6 +38,10 @@ workflows:
           # Set an environment variable for the gradle task to use
           echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
 
+      - name: Authenticate with Google Cloud
+        script: |
+          gcloud auth activate-service-account --key-file=$CM_BUILD_DIR/firebase_service_account_key.json
+
       - name: Set up Flutter
         script: |
           flutter doctor
@@ -72,6 +76,11 @@ workflows:
 
   android-patch-distribution:
     name: Android Patch Distribution
+    environment:
+      encrypted:
+        - FIREBASE_SERVICE_ACCOUNT_KEY
+        - SHOREBIRD_TOKEN
+        - FIREBASE_PROJECT_ID
     # This workflow is triggered when a tag starting with 'patch-android-' is pushed.
     triggering:
       events:
@@ -84,6 +93,14 @@ workflows:
       - name: Install Shorebird CLI
         script: |
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+      - name: Set up key file
+        script: |
+          echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
+
+      - name: Authenticate with Google Cloud
+        script: |
+          gcloud auth activate-service-account --key-file=$CM_BUILD_DIR/firebase_service_account_key.json
 
       - name: Set up Flutter
         script: |
