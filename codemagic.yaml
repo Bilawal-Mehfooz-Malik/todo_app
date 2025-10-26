@@ -22,6 +22,7 @@ workflows:
       - name: Install Shorebird CLI
         script: |
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV
       - name: Set up key file
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
@@ -72,6 +73,7 @@ workflows:
       - name: Install Shorebird CLI
         script: |
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV
       - name: Set up key file
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
