@@ -51,7 +51,7 @@ workflows:
           # Now run the build
           if [ "$BUILD_TOOL" = "shorebird" ]; then
             echo "Building with Shorebird..."
-            shorebird release android
+            shorebird release android --artifact apk
           else
             echo "Building with Flutter..."
             flutter build apk --release
