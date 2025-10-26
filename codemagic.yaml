@@ -1,6 +1,6 @@
 # codemagic.yaml
-# This file defines the CI/CD workflow for Codemagic.
-# Your secret variables should be in a group named 'firebase_secrets' in the Codemagic UI.
+# CI/CD workflow for Codemagic integrating Shorebird and Firebase App Distribution.
+# Ensure that your Firebase-related secrets are stored under the group name 'firebase_secrets' in Codemagic.
 
 workflows:
   android-app-distribution:
@@ -8,7 +8,7 @@ workflows:
     environment:
       flutter: 3.35.4
       vars:
-        BUILD_TOOL: "shorebird"
+        BUILD_TOOL: "shorebird" # change to "flutter" if you want to disable shorebird build
       groups:
         - firebase_secrets
     triggering:
@@ -21,27 +21,36 @@ workflows:
     scripts:
       - name: Install Shorebird CLI
         script: |
+          echo "Installing Shorebird CLI..."
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV
-      - name: Set up key file
+          export PATH="$HOME/.shorebird/bin:$PATH"
+          shorebird --version || echo "⚠️ Shorebird not detected"
+          echo "PATH=$PATH" >> $CM_ENV
+          ls -la $HOME/.shorebird/bin || echo "⚠️ Shorebird directory missing"
+
+      - name: Set up Firebase Service Account Key
         script: |
+          echo "Setting up Firebase key file..."
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
-          # Set standard Google Cloud variable for tools like FlutterFire
           echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
-          # Set variable for Gradle task
           echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
+
       - name: Set up Flutter
         script: |
           flutter doctor
           flutter pub get
+
       - name: Install FlutterFire CLI
         script: |
           dart pub global activate flutterfire_cli
+
       - name: Generate Firebase options
         script: |
           flutterfire configure --project=$FIREBASE_PROJECT_ID --yes --platforms=android
+
       - name: Conditional Build (APK)
         script: |
+          echo "Starting conditional build..."
           if [ "$BUILD_TOOL" = "shorebird" ]; then
             echo "Building with Shorebird..."
             shorebird build apk --release
@@ -49,11 +58,13 @@ workflows:
             echo "Building with Flutter..."
             flutter build apk --release
           fi
+
       - name: Distribute to Firebase App Distribution
         script: |
           echo "Uploading to Firebase App Distribution..."
           cd android
           ./gradlew appDistributionUploadRelease
+
     artifacts:
       - build/app/outputs/apk/release/*.apk
 
@@ -72,23 +83,32 @@ workflows:
     scripts:
       - name: Install Shorebird CLI
         script: |
+          echo "Installing Shorebird CLI..."
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV
-      - name: Set up key file
+          export PATH="$HOME/.shorebird/bin:$PATH"
+          shorebird --version || echo "⚠️ Shorebird not detected"
+          echo "PATH=$PATH" >> $CM_ENV
+          ls -la $HOME/.shorebird/bin || echo "⚠️ Shorebird directory missing"
+
+      - name: Set up Firebase Service Account Key
         script: |
+          echo "Setting up Firebase key file..."
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
-          # Set standard Google Cloud variable for tools like FlutterFire
           echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
+
       - name: Set up Flutter
         script: |
           flutter doctor
           flutter pub get
+
       - name: Install FlutterFire CLI
         script: |
           dart pub global activate flutterfire_cli
+
       - name: Generate Firebase options
         script: |
           flutterfire configure --project=$FIREBASE_PROJECT_ID --yes --platforms=android
+
       - name: Release Shorebird Patch
         script: |
           echo "Releasing patch to Shorebird..."
