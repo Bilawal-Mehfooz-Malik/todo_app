@@ -1,6 +1,6 @@
 # codemagic.yaml
-# CI/CD workflow for Codemagic integrating Shorebird and Firebase App Distribution.
-# Ensure that your Firebase-related secrets are stored under the group name 'firebase_secrets' in Codemagic.
+# CI/CD workflow for Codemagic
+# Secret variables should be in a group named 'firebase_secrets'
 
 workflows:
   android-app-distribution:
@@ -8,7 +8,7 @@ workflows:
     environment:
       flutter: 3.35.4
       vars:
-        BUILD_TOOL: "shorebird" # change to "flutter" if you want to disable shorebird build
+        BUILD_TOOL: "shorebird"
       groups:
         - firebase_secrets
     triggering:
@@ -19,21 +19,32 @@ workflows:
           include: true
           source: true
     scripts:
+      - name: DEBUG - List Environment Variables
+        script: |
+          echo "--- Listing available environment variables ---"
+          printenv | sort
+          echo "-------------------------------------------"
+
       - name: Install Shorebird CLI
         script: |
           echo "Installing Shorebird CLI..."
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          # Persist PATH for next steps
+          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV_PATH
           export PATH="$HOME/.shorebird/bin:$PATH"
-          shorebird --version || echo "⚠️ Shorebird not detected"
-          echo "PATH=$PATH" >> $CM_ENV
-          ls -la $HOME/.shorebird/bin || echo "⚠️ Shorebird directory missing"
+          shorebird --version || echo "⚠️ Shorebird installation not found"
 
-      - name: Set up Firebase Service Account Key
+      - name: Set up Firebase Key File
         script: |
-          echo "Setting up Firebase key file..."
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
+          # Persist Google Cloud credentials for tools like FlutterFire
           echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
+          # Persist variable for Gradle task
           echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
+
+      - name: Authenticate with Google Cloud
+        script: |
+          gcloud auth activate-service-account --key-file=$CM_BUILD_DIR/firebase_service_account_key.json
 
       - name: Set up Flutter
         script: |
@@ -50,7 +61,6 @@ workflows:
 
       - name: Conditional Build (APK)
         script: |
-          echo "Starting conditional build..."
           if [ "$BUILD_TOOL" = "shorebird" ]; then
             echo "Building with Shorebird..."
             shorebird build apk --release
@@ -85,14 +95,11 @@ workflows:
         script: |
           echo "Installing Shorebird CLI..."
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV_PATH
           export PATH="$HOME/.shorebird/bin:$PATH"
-          shorebird --version || echo "⚠️ Shorebird not detected"
-          echo "PATH=$PATH" >> $CM_ENV
-          ls -la $HOME/.shorebird/bin || echo "⚠️ Shorebird directory missing"
 
-      - name: Set up Firebase Service Account Key
+      - name: Set up Firebase Key File
         script: |
-          echo "Setting up Firebase key file..."
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
 
