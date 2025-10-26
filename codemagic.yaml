@@ -19,21 +19,6 @@ workflows:
           include: true
           source: true
     scripts:
-      - name: DEBUG - List Environment Variables
-        script: |
-          echo "--- Listing available environment variables ---"
-          printenv | sort
-          echo "-------------------------------------------"
-
-      - name: Install Shorebird CLI
-        script: |
-          echo "Installing Shorebird CLI..."
-          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-          # Persist PATH for next steps
-          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV_PATH
-          export PATH="$HOME/.shorebird/bin:$PATH"
-          shorebird --version || echo "⚠️ Shorebird installation not found"
-
       - name: Set up Firebase Key File
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
@@ -41,10 +26,6 @@ workflows:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
           # Persist variable for Gradle task
           echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
-
-      - name: Authenticate with Google Cloud
-        script: |
-          gcloud auth activate-service-account --key-file=$CM_BUILD_DIR/firebase_service_account_key.json
 
       - name: Set up Flutter
         script: |
@@ -59,11 +40,15 @@ workflows:
         script: |
           flutterfire configure --project=$FIREBASE_PROJECT_ID --yes --platforms=android
 
-      - name: Conditional Build (APK)
+      - name: Install Shorebird & Build APK
         script: |
-          echo "--- Current PATH ---"
-          echo $PATH
-          echo "--------------------"
+          set -e
+          # Install Shorebird
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          # Add Shorebird to the PATH for this script session
+          export PATH="$HOME/.shorebird/bin:$PATH"
+          
+          # Now run the build
           if [ "$BUILD_TOOL" = "shorebird" ]; then
             echo "Building with Shorebird..."
             shorebird build apk --release
@@ -94,13 +79,6 @@ workflows:
         - pattern: 'patch-android-*'
           include: true
     scripts:
-      - name: Install Shorebird CLI
-        script: |
-          echo "Installing Shorebird CLI..."
-          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-          echo 'export PATH="$HOME/.shorebird/bin:$PATH"' >> $CM_ENV_PATH
-          export PATH="$HOME/.shorebird/bin:$PATH"
-
       - name: Set up Firebase Key File
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
@@ -119,7 +97,14 @@ workflows:
         script: |
           flutterfire configure --project=$FIREBASE_PROJECT_ID --yes --platforms=android
 
-      - name: Release Shorebird Patch
+      - name: Install Shorebird & Patch
         script: |
+          set -e
+          # Install Shorebird
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          # Add Shorebird to the PATH for this script session
+          export PATH="$HOME/.shorebird/bin:$PATH"
+
+          # Now release the patch
           echo "Releasing patch to Shorebird..."
           shorebird patch apk --release
