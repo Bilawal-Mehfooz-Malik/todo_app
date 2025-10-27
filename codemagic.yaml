@@ -40,6 +40,11 @@ workflows:
         script: |
           flutterfire configure --project=$FIREBASE_PROJECT_ID --yes --platforms=android
 
+      - name: Run Flutter Tests
+        script: |
+          set -e
+          flutter test -- coverage
+
       - name: Install Shorebird & Build APK
         script: |
           set -e
@@ -96,6 +101,11 @@ workflows:
       - name: Generate Firebase options
         script: |
           flutterfire configure --project=$FIREBASE_PROJECT_ID --yes --platforms=android
+
+      - name: Run Flutter Tests
+        script: |
+          set -e
+          flutter test -- coverage
 
       - name: Install Shorebird & Patch
         script: |
