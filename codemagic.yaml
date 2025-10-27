@@ -43,7 +43,7 @@ workflows:
       - name: Run Flutter Tests
         script: |
           set -e
-          flutter test -- coverage
+          flutter test --coverage
 
       - name: Install Shorebird & Build APK
         script: |
@@ -105,7 +105,7 @@ workflows:
       - name: Run Flutter Tests
         script: |
           set -e
-          flutter test -- coverage
+          flutter test --coverage
 
       - name: Install Shorebird & Patch
         script: |
