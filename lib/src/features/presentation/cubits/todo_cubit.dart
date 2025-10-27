@@ -11,9 +11,9 @@ class TodoCubit extends Cubit<TodoState> {
 
   TodoCubit(this._todoRepository) : super(TodoInitial()) {
     _logger.info('TodoCubit initialized');
-    loadTodos();
   }
 
+  /// Loads all todos
   Future<void> loadTodos() async {
     emit(TodoLoading());
     try {
@@ -26,31 +26,56 @@ class TodoCubit extends Cubit<TodoState> {
     }
   }
 
+  /// Returns a single todo
   Future<Todo?> getTodo(int id) async {
     return await _todoRepository.getTodo(id);
   }
 
+  /// Adds a new todo, then reloads list
   Future<void> addTodo(Todo todo) async {
-    await _todoRepository.addTodo(todo);
-    _logger.info('Todo added: ${todo.name}');
-    loadTodos();
+    try {
+      await _todoRepository.addTodo(todo);
+      _logger.info('Todo added: ${todo.name}');
+      await loadTodos();
+    } catch (e, s) {
+      _logger.severe('Failed to add todo', error: e, stackTrace: s);
+      emit(TodoError(e.toString()));
+    }
   }
 
+  /// Edits an existing todo, then reloads list
   Future<void> editTodo(Todo todo) async {
-    await _todoRepository.editTodo(todo);
-    _logger.info('Todo edited: ${todo.name}');
-    loadTodos();
+    try {
+      await _todoRepository.editTodo(todo);
+      _logger.info('Todo edited: ${todo.name}');
+      await loadTodos();
+    } catch (e, s) {
+      _logger.severe('Failed to edit todo', error: e, stackTrace: s);
+      emit(TodoError(e.toString()));
+    }
   }
 
+  /// Deletes a todo by ID, then reloads list
   Future<void> deleteTodo(int id) async {
-    await _todoRepository.deleteTodo(id);
-    _logger.info('Todo deleted with id: $id');
-    loadTodos();
+    try {
+      await _todoRepository.deleteTodo(id);
+      _logger.info('Todo deleted with id: $id');
+      await loadTodos();
+    } catch (e, s) {
+      _logger.severe('Failed to delete todo', error: e, stackTrace: s);
+      emit(TodoError(e.toString()));
+    }
   }
 
+  /// Toggles completion, then reloads list
   Future<void> toggleCompletion(Todo todo) async {
-    await _todoRepository.toggleCompletion(todo);
-    _logger.info('Todo completion toggled for: ${todo.name}');
-    loadTodos();
+    try {
+      await _todoRepository.toggleCompletion(todo);
+      _logger.info('Todo completion toggled for: ${todo.name}');
+      await loadTodos();
+    } catch (e, s) {
+      _logger.severe('Failed to toggle completion', error: e, stackTrace: s);
+      emit(TodoError(e.toString()));
+    }
   }
 }

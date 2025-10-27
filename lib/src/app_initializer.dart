@@ -3,12 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:isar_community/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/src/app.dart';
-import 'package:todo_app/src/features/data/isar_todo.dart';
-import 'package:todo_app/src/features/data/isar_repository.dart';
+import 'package:todo_app/src/features/data/database/app_database.dart';
+import 'package:todo_app/src/features/data/drift_repository.dart';
+import 'package:todo_app/src/features/domain/todo_repository.dart'; // Import TodoRepository
 import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
@@ -34,8 +33,8 @@ class AppInitializer {
     // Register global error handlers to catch and log errors.
     _registerErrorHandlers();
 
-    // Initialize the Isar database and its repository.
-    final repo = await _initializeIsar();
+    // Initialize the Drift database and its repository.
+    final repo = await _initializeDrift();
 
     // Create and return the main application widget with its Bloc providers.
     return _createAppWidget(repo);
@@ -90,15 +89,16 @@ class AppInitializer {
     };
   }
 
-  /// Initializes the Isar database and returns an IsarRepository instance.
-  Future<IsarRepository> _initializeIsar() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open([IsarTodoSchema], directory: dir.path);
-    return IsarRepository(isar);
+  /// Initializes the Drift database and returns a DriftRepository instance.
+  Future<TodoRepository> _initializeDrift() async {
+    final database = AppDatabase();
+    final repository = DriftRepository(database);
+    getIt.registerSingleton<TodoRepository>(repository); // Register the repository
+    return repository;
   }
 
   /// Creates the root widget of the application, providing necessary Bloc instances.
-  Widget _createAppWidget(IsarRepository repo) {
+  Widget _createAppWidget(TodoRepository repo) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<TodoCubit>(

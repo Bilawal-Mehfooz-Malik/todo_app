@@ -1,19 +1,21 @@
-class Todo {
+import 'package:equatable/equatable.dart';
+
+class Todo extends Equatable {
   final int id;
   final String name;
   final String description;
   final DateTime deadline;
   final bool isCompleted;
 
-  Todo({
+  const Todo({
     required this.id,
     required this.name,
     required this.description,
-    this.isCompleted = false,
     required this.deadline,
+    this.isCompleted = false,
   });
 
-  Todo toggleCompletion(Todo todo) {
+  Todo toggleCompletion() {
     return Todo(
       id: id,
       name: name,
@@ -38,4 +40,7 @@ class Todo {
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }
+
+  @override
+  List<Object?> get props => [id, name, description, deadline, isCompleted];
 }
