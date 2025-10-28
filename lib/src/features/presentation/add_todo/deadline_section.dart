@@ -5,6 +5,8 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/utils/date_formatter.dart';
 import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 
+const kTodoDeadlineKey = ValueKey('Todo-Deadline');
+
 class DeadlineSection extends StatefulWidget {
   final DateTime? deadline;
   const DeadlineSection({super.key, required this.deadline});
@@ -36,6 +38,7 @@ class _DeadlineSectionState extends State<DeadlineSection> {
 
         // Date Picker
         InkWell(
+          key: kTodoDeadlineKey,
           onTap: () => _showDatePicker(context),
           child: Card(
             child: Padding(

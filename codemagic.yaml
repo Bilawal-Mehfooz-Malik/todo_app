@@ -13,11 +13,10 @@ workflows:
         - firebase_secrets
     triggering:
       events:
-        - push
-      branch_patterns:
-        - pattern: 'main'
+        - tag
+      tag_patterns:
+        - pattern: 'release-android-v*'
           include: true
-          source: true
     scripts:
       - name: Set up Firebase Key File
         script: |
@@ -67,6 +66,14 @@ workflows:
           echo "Uploading to Firebase App Distribution..."
           cd android
           ./gradlew appDistributionUploadRelease
+
+      - name: Create GitHub Release
+        script: |
+          set -e
+          gh release create $CM_TAG \
+            --title "Release $CM_TAG" \
+            --notes "Automated release for $CM_TAG" \
+            build/app/outputs/apk/release/app-release.apk
 
     artifacts:
       - build/app/outputs/apk/release/*.apk
@@ -118,3 +125,10 @@ workflows:
           # Now release the patch
           echo "Releasing patch to Shorebird..."
           shorebird patch android
+
+      - name: Create GitHub Release for Patch
+        script: |
+          set -e
+          gh release create $CM_TAG \
+            --title "Patch $CM_TAG" \
+            --notes "Automated patch release for $CM_TAG"

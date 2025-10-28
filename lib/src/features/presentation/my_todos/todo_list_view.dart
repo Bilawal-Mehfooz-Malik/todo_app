@@ -7,7 +7,7 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_state.dart';
-import 'package:todo_app/src/features/presentation/my_todos/task_list_tile.dart';
+import 'package:todo_app/src/features/presentation/my_todos/todo_list_tile.dart';
 
 class TodoListView extends StatelessWidget {
   const TodoListView({super.key});

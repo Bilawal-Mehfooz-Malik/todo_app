@@ -10,6 +10,9 @@ import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/add_todo/deadline_section.dart';
 
+const kTodoNameKey = ValueKey('Todo-Name');
+const kTodoDescriptionKey = ValueKey('Todo-Description');
+
 class AddTodoScreen extends StatefulWidget {
   const AddTodoScreen({super.key, this.todo});
 
@@ -54,11 +57,13 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             children: [
               gapH8,
               CustomTextField(
+                key: kTodoNameKey,
                 label: context.loc.title,
                 controller: _titleController,
               ),
               gapH8,
               CustomTextField(
+                key: kTodoDescriptionKey,
                 maxLines: 8,
                 maxLength: 1000,
                 hintText: context.loc.description,

@@ -1,12 +1,39 @@
 # Todo App
 
-A simple yet powerful Todo app developed using `isar` as the backend and `flutter_bloc` for state management. This app allows users to create, update, and manage their todos efficiently with a clean and intuitive UI.
+A simple yet powerful Todo app developed using `drift` (formerly `moor`) as the backend and `flutter_bloc` for state management. This app allows users to create, update, and manage their todos efficiently with a clean and intuitive UI.
 
 ## Features
-- **Add and Edit Todos**: Easily manage your tasks.
-- **Todo Details**: View detailed information about each todo.
-- **State Management**: Leveraging `flutter_bloc` for clean and maintainable state management.
-- **Local Storage**: Using `isar` as a high-performance NoSQL database.
+- **Add, Edit, and Delete Todos**: Easily manage your tasks.
+- **Clean State Management**: Leveraging `flutter_bloc` for predictable and maintainable state.
+- **High-Performance Local Storage**: Using `drift` for a fast and reliable local database.
+- **Error Reporting**: Integrated with **Firebase Crashlytics** for real-time crash monitoring.
+- **Over-the-Air Updates**: Ready for hotfixes using **Shorebird**.
+
+## Technologies & Architecture
+- **State Management**: `flutter_bloc`
+- **Database**: `drift` (on top of `sqlite`)
+- **Dependency Injection**: `get_it`
+- **CI/CD**: Codemagic & GitHub Actions
+- **Error Reporting**: Firebase Crashlytics
+- **Hotfixes**: Shorebird
+- **Architecture**: A clean, feature-first architecture is used, separating code into `data`, `domain`, and `presentation` layers.
+
+## DevOps & CI/CD
+This project uses a tag-based release system automated with Codemagic.
+
+### Creating a Full Release
+To build and release a new version of the application:
+1. Create a new git tag with the format `release-android-vX.X.X` (e.g., `release-android-v1.0.0`).
+2. Push the tag to the remote repository: `git push origin <tag_name>`.
+
+This will trigger the `android-app-distribution` workflow on Codemagic, which builds the APK, uploads it to Firebase App Distribution, and creates a new release on GitHub with the APK attached.
+
+### Creating a Patch
+To release a hotfix using Shorebird:
+1. Create a new git tag with the format `patch-android-vX.X.X.X` (e.g., `patch-android-v1.0.0.1`).
+2. Push the tag to the remote repository.
+
+This will trigger the `android-patch-distribution` workflow, which deploys the code changes via Shorebird and creates a corresponding release tag on GitHub.
 
 ## Screenshots
 
@@ -29,49 +56,54 @@ A simple yet powerful Todo app developed using `isar` as the backend and `flutte
 
 ## Project Structure
 
-- **assets/**
-  - Contains all images used in the project.
+- **`lib/src/`**: Main project directory.
+  - **`common/`**: Contains reusable widgets and utility functions (e.g., dialogs, buttons).
+  - **`constants/`**: Holds application-wide constants like sizes and breakpoints.
+  - **`features/`**: Core application features, each separated into `data`, `domain`, and `presentation` layers.
+  - **`localization/`**: Manages localization and internationalization.
+  - **`theme/`**: Contains the application's theme data and color schemes.
+  - **`utils/`**: Shared utility classes and extensions.
 
-- **src/**
-  - Main project directory containing all core features and logic.
+## Project Setup
 
-  - **src/features/**
-    - Feature-based folder structure for better scalability.
+Follow these steps to get the project up and running on your local machine.
 
-    - **src/features/data/**
-      - Contains the Isar database configuration.
+### 1. Prerequisites
 
-    - **src/features/domain/**
-      - Contains the Todo model and the database repository structure.
+Make sure you have the following tools installed:
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- An IDE such as [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/)
 
-    - **src/features/presentation/**
-      - Holds all UI elements and widgets.
+### 2. Clone the Repository
 
-      - **src/features/presentation/cubit/**
-        - Contains BLoC cubits for state management.
+```bash
+git clone https://github.com/Bilawal-Mehfooz-Malik/todo_app
+cd todo_app
+```
 
-## Requirements
-1. Flutter SDK
-2. Android Studio or Visual Studio Code
+### 3. Install Dependencies
 
-## Installation
+```bash
+flutter pub get
+```
 
-To get started with this project:
+### 4. Configure Firebase
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Bilawal-Mehfooz-Malik/todo_app
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd todo_app
-   ```
+This project uses Firebase for crash reporting. You must connect it to your own Firebase project to run it.
 
-3. Install Dependencies:
+1.  **Install the FlutterFire CLI:**
     ```bash
-    flutter pub get
+    dart pub global activate flutterfire_cli
     ```
-3. Run the project:
-   ```bash
-   flutter run
-   ```
+
+2.  **Connect to Firebase:** Run the following command and follow the prompts to select your Firebase project. This will automatically generate the `lib/firebase_options.dart` file for you.
+    ```bash
+    flutterfire configure
+    ```
+
+### 5. Run the Application
+
+```bash
+flutter run
+```
