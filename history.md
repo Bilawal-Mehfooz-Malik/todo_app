@@ -59,14 +59,14 @@ This document outlines the plan to improve the Todo app by integrating Firebase 
 *   **Purpose:** To protect backend resources from abuse.
 *   **Conclusion:** Not needed for this app because it is completely offline and has no backend to protect.
 
-## 5. Custom App Logger with Crashlytics Integration
+## 6. CI/CD and Testing Overhaul
 
-*   **Purpose:** To provide a centralized, application-wide logging mechanism that integrates with Firebase Crashlytics for error reporting.
-*   **Implementation Details:**
-    *   **Custom Logger:** Implemented a custom `AppLogger` from scratch, avoiding external logging packages for full control.
-    *   **Log Levels:** Supports `info`, `warning`, and `severe` log levels.
-    *   **Crashlytics Integration:** `severe` level logs automatically report errors and stack traces to Firebase Crashlytics.
-    *   **Dependency Injection:** Utilized `get_it` as a service locator to provide a singleton instance of `AppLogger` throughout the application, ensuring testability and decoupling.
-    *   **Modular Initialization:** Refactored application startup into an `AppInitializer` class, breaking down initialization concerns (Firebase, dependencies, error handling, Isar, Bloc providers) into distinct, focused methods. This keeps `main.dart` clean and the initialization logic organized.
-    *   **Global Error Handling:** Integrated the `AppLogger` into Flutter's global error handlers (`FlutterError.onError`, `PlatformDispatcher.instance.onError`, `ErrorWidget.builder`) to capture and log all uncaught exceptions.
-    *   **Usage Example:** Demonstrated usage within a `TodoCubit` to show how to log information and errors from business logic.
+*   **Tag-Based Release Workflow:** Refactored the Codemagic CI/CD pipeline to use an explicit, tag-based trigger system instead of activating on every push to `main`.
+    *   Full releases are now triggered by tags matching `release-android-v*`.
+    *   Shorebird patches are triggered by tags matching `patch-android-*`.
+*   **Automated GitHub Releases:** Integrated the GitHub CLI (`gh`) into the Codemagic workflows to automatically create a new GitHub Release for every full release and patch, improving traceability.
+*   **Integration Test Fixes:** Resolved multiple issues with the end-to-end integration tests, including:
+    *   Fixing a Firebase initialization error by mocking the `AppLogger` during tests.
+    *   Resolving a `GetIt` dependency injection error by refactoring the `TodoCubit` to receive its logger via the constructor.
+    *   Correcting the initial data loading logic by moving the `loadTodos()` call to the `initState` of the main screen widget (`MyTodoScreen`).
+*   **Test Code Centralization:** Consolidated all mock classes into a single, reusable `test/src/mocks.dart` file to clean up test code.
