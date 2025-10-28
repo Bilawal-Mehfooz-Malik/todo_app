@@ -2,14 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
 import 'package:todo_app/src/features/domain/todo_repository.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_state.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:todo_app/src/utils/app_logger.dart';
 
 class TodoCubit extends Cubit<TodoState> {
   final TodoRepository _todoRepository;
-  final Logger _logger = GetIt.instance<Logger>();
+  final Logger _logger;
 
-  TodoCubit(this._todoRepository) : super(TodoInitial()) {
+  TodoCubit(this._todoRepository, this._logger) : super(TodoInitial()) {
     _logger.info('TodoCubit initialized');
   }
 

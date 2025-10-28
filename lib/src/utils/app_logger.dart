@@ -13,13 +13,18 @@ abstract class Logger {
 /// This logger prints messages to the debug console and sends severe errors to Firebase Crashlytics.
 class AppLogger implements Logger {
   /// Private constructor for the singleton pattern.
-  AppLogger._();
+  AppLogger._({this.isTesting = false});
 
   /// Factory constructor to provide the singleton instance of AppLogger.
-  factory AppLogger() => _instance;
+  factory AppLogger({bool isTesting = false}) {
+    _instance ??= AppLogger._(isTesting: isTesting);
+    return _instance!;
+  }
 
   /// The single instance of AppLogger.
-  static final AppLogger _instance = AppLogger._();
+  static AppLogger? _instance;
+
+  final bool isTesting;
 
   @override
   void info(String message) {
@@ -35,12 +40,14 @@ class AppLogger implements Logger {
   void severe(String message, {Object? error, StackTrace? stackTrace}) {
     _log('SEVERE', message, error: error, stackTrace: stackTrace);
     // Record severe errors with Firebase Crashlytics.
-    FirebaseCrashlytics.instance.recordError(
-      error,
-      stackTrace,
-      reason: message,
-      fatal: true,
-    );
+    if (!isTesting) {
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stackTrace,
+        reason: message,
+        fatal: true,
+      );
+    }
   }
 
   /// Internal method to handle logging to the debug console.

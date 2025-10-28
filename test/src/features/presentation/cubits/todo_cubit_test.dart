@@ -4,15 +4,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_app/src/utils/app_logger.dart';
 import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/domain/todo_repository.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/features/presentation/cubits/todo_state.dart';
 
-class MockTodoRepository extends Mock implements TodoRepository {}
-
-class MockLogger extends Mock implements Logger {}
-
-class FakeTodo extends Fake implements Todo {}
+import '../../../mocks.dart';
 
 void main() {
   late MockTodoRepository mockTodoRepository;
@@ -29,7 +24,6 @@ void main() {
     if (GetIt.instance.isRegistered<Logger>()) {
       GetIt.instance.unregister<Logger>();
     }
-    GetIt.instance.registerSingleton<Logger>(mockLogger);
   });
 
   group('TodoCubit Tests', () {
@@ -57,7 +51,7 @@ void main() {
         when(
           () => mockTodoRepository.getAllTodo(),
         ).thenAnswer((_) async => mockTodos);
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) => cubit.loadTodos(),
       expect: () => [TodoLoading(), TodoLoaded(mockTodos)],
@@ -69,7 +63,7 @@ void main() {
         when(
           () => mockTodoRepository.getAllTodo(),
         ).thenThrow(Exception('Failed to load todos'));
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) => cubit.loadTodos(),
       expect: () => [
@@ -88,7 +82,7 @@ void main() {
         when(
           () => mockTodoRepository.getAllTodo(),
         ).thenAnswer((_) async => [mockTodos.first]);
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.addTodo(mockTodos.first);
@@ -106,7 +100,7 @@ void main() {
         when(
           () => mockTodoRepository.addTodo(any()),
         ).thenThrow(Exception('Failed to add todo'));
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.addTodo(mockTodos.first);
@@ -124,7 +118,7 @@ void main() {
         when(
           () => mockTodoRepository.getAllTodo(),
         ).thenAnswer((_) async => mockTodos);
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.editTodo(mockTodos.first.copyWith(name: 'Updated Todo'));
@@ -138,7 +132,7 @@ void main() {
         when(
           () => mockTodoRepository.editTodo(any()),
         ).thenThrow(Exception('Failed to edit todo'));
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.editTodo(mockTodos.first);
@@ -156,7 +150,7 @@ void main() {
         when(
           () => mockTodoRepository.getAllTodo(),
         ).thenAnswer((_) async => mockTodos);
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.toggleCompletion(mockTodos.first);
@@ -170,7 +164,7 @@ void main() {
         when(
           () => mockTodoRepository.toggleCompletion(any()),
         ).thenThrow(Exception('Failed to toggle completion'));
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.toggleCompletion(mockTodos.first);
@@ -188,7 +182,7 @@ void main() {
         when(
           () => mockTodoRepository.getAllTodo(),
         ).thenAnswer((_) async => [mockTodos.last]);
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.deleteTodo(mockTodos.first.id);
@@ -205,7 +199,7 @@ void main() {
         when(
           () => mockTodoRepository.deleteTodo(any()),
         ).thenThrow(Exception('Failed to delete todo'));
-        return TodoCubit(mockTodoRepository);
+        return TodoCubit(mockTodoRepository, mockLogger);
       },
       act: (cubit) async {
         await cubit.deleteTodo(mockTodos.first.id);
