@@ -1,6 +1,6 @@
 # codemagic.yaml
-# CI/CD workflow for Codemagic
-# Secret variables should be in a group named 'firebase_secrets'
+# CI/CD workflow for Codemagic (Flutter + Shorebird + Firebase + GitHub Releases)
+# Secret variables should be in groups: 'firebase_secrets' and 'github'
 
 workflows:
   android-app-distribution:
@@ -18,6 +18,7 @@ workflows:
       tag_patterns:
         - pattern: 'release-android-v*'
           include: true
+
     scripts:
       - name: Set up Firebase Key File
         script: |
@@ -66,16 +67,24 @@ workflows:
       - name: Create GitHub Release
         script: |
           set -e
-          # Map GITHUB_TOKEN to GH_TOKEN so gh CLI can authenticate
           export GH_TOKEN=$GITHUB_TOKEN
-          echo "Creating GitHub release for $CM_TAG..."
-          gh release create $CM_TAG \
-            --title "Release $CM_TAG" \
-            --notes "Automated release for $CM_TAG" \
+
+          APP_NAME="Todo"
+          VERSION=$(echo "$CM_TAG" | sed 's/release-android-v//')
+
+          echo "Creating GitHub release for $APP_NAME v$VERSION..."
+          gh release create "$CM_TAG" \
+            --title "$APP_NAME v$VERSION (Android)" \
+            --notes "📦 **Automated release for $APP_NAME v$VERSION**  
+            
+            ✅ Built with Shorebird  
+            🚀 Distributed via Firebase App Distribution  
+            🔒 Signed and ready for release." \
             build/app/outputs/apk/release/app-release.apk
 
     artifacts:
       - build/app/outputs/apk/release/*.apk
+
 
   android-patch-distribution:
     name: Android Patch Distribution
@@ -90,6 +99,7 @@ workflows:
       tag_patterns:
         - pattern: 'patch-android-*'
           include: true
+
     scripts:
       - name: Set up Firebase Key File
         script: |
@@ -126,7 +136,14 @@ workflows:
         script: |
           set -e
           export GH_TOKEN=$GITHUB_TOKEN
-          echo "Creating GitHub patch release for $CM_TAG..."
-          gh release create $CM_TAG \
-            --title "Patch $CM_TAG" \
-            --notes "Automated patch release for $CM_TAG"
+
+          APP_NAME="Todo"
+          VERSION=$(echo "$CM_TAG" | sed 's/patch-android-//')
+
+          echo "Creating GitHub patch release for $APP_NAME $VERSION..."
+          gh release create "$CM_TAG" \
+            --title "$APP_NAME v$VERSION (Patch)" \
+            --notes "🔧 **Automated patch release for $APP_NAME v$VERSION**  
+            
+            🛠 Bug fixes and performance improvements  
+            🚀 Delivered via Shorebird patch system."
