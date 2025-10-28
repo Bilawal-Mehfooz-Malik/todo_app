@@ -21,9 +21,7 @@ workflows:
       - name: Set up Firebase Key File
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT_KEY | base64 --decode > $CM_BUILD_DIR/firebase_service_account_key.json
-          # Persist Google Cloud credentials for tools like FlutterFire
           echo "GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
-          # Persist variable for Gradle task
           echo "FIREBASE_SERVICE_ACCOUNT_KEY_PATH=$CM_BUILD_DIR/firebase_service_account_key.json" >> $CM_ENV
 
       - name: Set up Flutter
@@ -47,12 +45,9 @@ workflows:
       - name: Install Shorebird & Build APK
         script: |
           set -e
-          # Install Shorebird
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-          # Add Shorebird to the PATH for this script session
           export PATH="$HOME/.shorebird/bin:$PATH"
           
-          # Now run the build
           if [ "$BUILD_TOOL" = "shorebird" ]; then
             echo "Building with Shorebird..."
             shorebird release android --artifact apk
@@ -70,6 +65,9 @@ workflows:
       - name: Create GitHub Release
         script: |
           set -e
+          # Map GITHUB_TOKEN to GH_TOKEN so gh CLI can authenticate
+          export GH_TOKEN=$GITHUB_TOKEN
+          echo "Creating GitHub release for $CM_TAG..."
           gh release create $CM_TAG \
             --title "Release $CM_TAG" \
             --notes "Automated release for $CM_TAG" \
@@ -117,18 +115,16 @@ workflows:
       - name: Install Shorebird & Patch
         script: |
           set -e
-          # Install Shorebird
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-          # Add Shorebird to the PATH for this script session
           export PATH="$HOME/.shorebird/bin:$PATH"
-
-          # Now release the patch
           echo "Releasing patch to Shorebird..."
           shorebird patch android
 
       - name: Create GitHub Release for Patch
         script: |
           set -e
+          export GH_TOKEN=$GITHUB_TOKEN
+          echo "Creating GitHub patch release for $CM_TAG..."
           gh release create $CM_TAG \
             --title "Patch $CM_TAG" \
             --notes "Automated patch release for $CM_TAG"
