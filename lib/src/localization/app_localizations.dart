@@ -201,6 +201,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Todo'**
   String get editTodo;
+
+  /// No description provided for @aiTaskInputTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Task Input'**
+  String get aiTaskInputTitle;
+
+  /// No description provided for @aiInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your task here (e.g., add a task for homework of English due tomorrow)'**
+  String get aiInputHint;
+
+  /// No description provided for @submitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submitButton;
+
+  /// No description provided for @confirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  /// No description provided for @cancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButton;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
 }
 
 class _AppLocalizationsDelegate

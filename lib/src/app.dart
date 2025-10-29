@@ -4,7 +4,7 @@ import 'package:todo_app/src/theme/dark_theme.dart';
 import 'package:todo_app/src/localization/app_localizations.dart';
 
 import 'package:todo_app/src/utils/extensions.dart';
-import 'package:todo_app/src/features/presentation/my_todos/my_todo_screen.dart';
+import 'package:todo_app/src/features/todo_list/presentation/my_todo_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

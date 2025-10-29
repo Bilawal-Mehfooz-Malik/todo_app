@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/utils/date_formatter.dart';
-import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/date_cubit.dart';
 
 const kTodoDeadlineKey = ValueKey('Todo-Deadline');
 

@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_app/src/utils/app_logger.dart';
-import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/cubits/todo_state.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_state.dart';
 
 import '../../../mocks.dart';
 

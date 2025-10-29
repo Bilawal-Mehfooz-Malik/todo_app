@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/date_cubit.dart';
 
 void main() {
   group('DateCubit Tests', () {

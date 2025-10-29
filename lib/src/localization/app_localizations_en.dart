@@ -61,4 +61,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editTodo => 'Edit Todo';
+
+  @override
+  String get aiTaskInputTitle => 'AI Task Input';
+
+  @override
+  String get aiInputHint =>
+      'Type your task here (e.g., add a task for homework of English due tomorrow)';
+
+  @override
+  String get submitButton => 'Submit';
+
+  @override
+  String get confirmButton => 'Confirm';
+
+  @override
+  String get cancelButton => 'Cancel';
+
+  @override
+  String get error => 'Error';
 }

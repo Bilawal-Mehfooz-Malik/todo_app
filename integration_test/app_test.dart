@@ -5,9 +5,9 @@ import 'package:todo_app/src/app_initializer.dart';
 import 'package:todo_app/src/common/custom_elevated_button.dart';
 
 import 'package:todo_app/src/common/message.dart';
-import 'package:todo_app/src/features/presentation/add_todo/add_todo_screen.dart';
-import 'package:todo_app/src/features/presentation/add_todo/deadline_section.dart';
-import 'package:todo_app/src/features/presentation/my_todos/todo_list_tile.dart';
+import 'package:todo_app/src/features/add_todo/add_todo_screen.dart';
+import 'package:todo_app/src/features/add_todo/deadline_section.dart';
+import 'package:todo_app/src/features/todo_list/presentation/todo_list_tile.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

@@ -7,12 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/utils/date_formatter.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
-import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/todo_details/todo_detail_screen.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/todo_details/todo_detail_screen.dart';
 
 class TodoListTile extends StatelessWidget {
   final Todo todo;
@@ -53,7 +54,7 @@ class TodoListTile extends StatelessWidget {
     final cubit = context.read<TodoCubit>();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: Sizes.p8),
       child: InkWell(
         onTap: () => _onTap(context, todo),
         // Dismissible allows the user to swipe the tile to delete the todo
