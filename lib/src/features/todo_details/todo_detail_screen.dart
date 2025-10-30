@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/common/custom_filled_button.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/utils/date_formatter.dart';
@@ -129,9 +130,9 @@ class TodoDetailScreen extends StatelessWidget {
   }
 
   Widget _buildEditButton(BuildContext context) {
-    return ElevatedButton(
+    return CustomFilledButton(
       onPressed: () => _navigateToEdit(context),
-      child: Text(context.loc.editTodo),
+      text: context.loc.editTodo,
     );
   }
 }

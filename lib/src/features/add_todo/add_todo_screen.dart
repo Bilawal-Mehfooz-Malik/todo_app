@@ -5,7 +5,7 @@ import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/common/custom_text_field.dart';
 import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
-import 'package:todo_app/src/common/custom_elevated_button.dart';
+import 'package:todo_app/src/common/custom_filled_button.dart';
 import 'package:todo_app/src/features/todo_list/presentation/cubits/date_cubit.dart';
 import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/features/add_todo/deadline_section.dart';
@@ -76,7 +76,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
 
               // Save Todo Button
               BlocBuilder<DateCubit, DateTime?>(
-                builder: (context, deadline) => CustomElevatedButton(
+                builder: (context, deadline) => CustomFilledButton(
                   text: context.loc.save,
                   onPressed: () => _saveTodo(context, deadline),
                 ),

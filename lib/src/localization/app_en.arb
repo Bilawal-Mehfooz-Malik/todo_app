@@ -55,5 +55,8 @@
   "cancelButton": "Cancel",
   "@cancelButton": {},
   "error": "Error",
-  "@error": {}
+  "@error": {},
+
+  "confirmTaskTitle": "Confirm Task",
+  "@confirmTaskTitle": {}
 }

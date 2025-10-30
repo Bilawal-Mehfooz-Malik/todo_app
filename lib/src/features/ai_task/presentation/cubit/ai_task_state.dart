@@ -1,45 +1,54 @@
 import 'package:equatable/equatable.dart';
 import 'package:todo_app/src/features/ai_task/domain/ai_task_draft.dart';
+import 'package:todo_app/src/features/ai_task/domain/chat_message.dart';
 
-abstract class AiTaskState extends Equatable {
-  const AiTaskState();
+enum AiStateStatus {
+  initial,
+  loading,
+  success,
+  error,
+  readyForConfirmation,
+  saved,
+}
+
+class AiTaskState extends Equatable {
+  final AiStateStatus status;
+  final List<ChatMessage> messages;
+  final AiTaskDraft? taskDraft;
+  final String? errorMessage;
+  final String? clarificationQuestion;
+
+  const AiTaskState({
+    this.status = AiStateStatus.initial,
+    this.messages = const [],
+    this.taskDraft,
+    this.errorMessage,
+    this.clarificationQuestion,
+  });
+
+  AiTaskState copyWith({
+    AiStateStatus? status,
+    List<ChatMessage>? messages,
+    AiTaskDraft? taskDraft,
+    String? errorMessage,
+    String? clarificationQuestion,
+  }) {
+    return AiTaskState(
+      status: status ?? this.status,
+      messages: messages ?? this.messages,
+      taskDraft: taskDraft ?? this.taskDraft,
+      errorMessage: errorMessage ?? this.errorMessage,
+      clarificationQuestion:
+          clarificationQuestion ?? this.clarificationQuestion,
+    );
+  }
 
   @override
-  List<Object?> get props => [];
-}
-
-class AiTaskInitial extends AiTaskState {
-  const AiTaskInitial();
-}
-
-class AiTaskLoading extends AiTaskState {
-  const AiTaskLoading();
-}
-
-class AiTaskClarificationNeeded extends AiTaskState {
-  final String question;
-  const AiTaskClarificationNeeded(this.question);
-
-  @override
-  List<Object?> get props => [question];
-}
-
-class AiTaskReadyForConfirmation extends AiTaskState {
-  final AiTaskDraft draft;
-  const AiTaskReadyForConfirmation(this.draft);
-
-  @override
-  List<Object?> get props => [draft];
-}
-
-class AiTaskError extends AiTaskState {
-  final String message;
-  const AiTaskError(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class AiTaskSaved extends AiTaskState {
-  const AiTaskSaved();
+  List<Object?> get props => [
+    status,
+    messages,
+    taskDraft,
+    errorMessage,
+    clarificationQuestion,
+  ];
 }

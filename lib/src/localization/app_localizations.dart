@@ -237,6 +237,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get error;
+
+  /// No description provided for @confirmTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Task'**
+  String get confirmTaskTitle;
 }
 
 class _AppLocalizationsDelegate

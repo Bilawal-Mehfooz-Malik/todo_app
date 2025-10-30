@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
-import 'package:todo_app/src/common/custom_elevated_button.dart';
+import 'package:todo_app/src/common/custom_filled_button.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 
 class TaskConfirmationButtons extends StatelessWidget {
@@ -18,15 +18,12 @@ class TaskConfirmationButtons extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomElevatedButton(
+        CustomFilledButton(
           onPressed: onConfirm,
           text: context.loc.confirmButton,
         ),
         gapW16,
-        CustomElevatedButton(
-          onPressed: onCancel,
-          text: context.loc.cancelButton,
-        ),
+        CustomFilledButton(onPressed: onCancel, text: context.loc.cancelButton),
       ],
     );
   }

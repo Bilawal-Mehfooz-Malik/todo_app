@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_cubit.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_state.dart';
 import 'package:todo_app/src/utils/extensions.dart';
-import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
-import 'package:todo_app/src/features/ai_task/presentation/widgets/ai_input_section.dart';
-import 'package:todo_app/src/features/ai_task/presentation/widgets/ai_response_display.dart';
+import 'package:todo_app/src/features/ai_task/presentation/widgets/message_bubble.dart';
+import 'package:todo_app/src/features/ai_task/presentation/widgets/message_input_bar.dart';
+import 'package:todo_app/src/features/ai_task/presentation/widgets/task_confirmation_dialog.dart';
 
 class AiTaskInputScreen extends StatefulWidget {
   const AiTaskInputScreen({super.key});
@@ -16,13 +16,6 @@ class AiTaskInputScreen extends StatefulWidget {
 }
 
 class _AiTaskInputScreenState extends State<AiTaskInputScreen> {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,36 +24,50 @@ class _AiTaskInputScreenState extends State<AiTaskInputScreen> {
       body: SafeArea(
         child: BlocConsumer<AiTaskCubit, AiTaskState>(
           listener: (context, state) {
-            if (state is AiTaskSaved) {
+            if (state.status == AiStateStatus.saved) {
               Navigator.of(context).pop();
-            } else if (state is AiTaskError) {
+            } else if (state.status == AiStateStatus.error &&
+                state.errorMessage != null) {
               showExceptionAlertDialog(
                 context: context,
                 title: context.loc.error,
-                exception: state.message,
+                exception: state.errorMessage!,
               );
+            } else if (state.status == AiStateStatus.readyForConfirmation &&
+                state.taskDraft != null) {
+              showTaskConfirmationDialog(
+                context: context,
+                draft: state.taskDraft!,
+              ).then((confirmed) {
+                if (confirmed == true) {
+                  if (!context.mounted) return;
+                  context.read<AiTaskCubit>().confirmTask(state.taskDraft!);
+                }
+              });
             }
           },
           builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(Sizes.p16),
-              child: Column(
-                spacing: Sizes.p16,
-                children: [
-                  Expanded(child: AiResponseDisplay(state: state)),
-                  AiInputSection(
-                    textEditingController: _controller,
-                    onSubmitPressed: () {
-                      if (_controller.text.isNotEmpty) {
-                        context.read<AiTaskCubit>().processUserMessage(
-                          _controller.text,
-                        );
-                      }
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    padding: const EdgeInsets.all(16.0),
+                    itemCount: state.messages.length,
+                    itemBuilder: (context, index) {
+                      final message =
+                          state.messages[state.messages.length - 1 - index];
+                      return MessageBubble(message: message);
                     },
-                    isLoading: state is AiTaskLoading,
                   ),
-                ],
-              ),
+                ),
+                MessageInputBar(
+                  onSend: (text) {
+                    context.read<AiTaskCubit>().processUserMessage(text);
+                  },
+                  isLoading: state.status == AiStateStatus.loading,
+                ),
+              ],
             );
           },
         ),

@@ -21,6 +21,7 @@ final darkTheme = ThemeData(
     onError: darkOnErrorColor,
     surface: darkSurfaceColor,
     onSurface: darkOnSurfaceColor,
+    surfaceContainerHigh: Color.fromARGB(255, 46, 46, 46),
   ),
 
   // [List Tile Theme]
@@ -39,7 +40,7 @@ final darkTheme = ThemeData(
   checkboxTheme: const CheckboxThemeData(shape: CircleBorder()),
 
   // [Elevate Button Theme]
-  elevatedButtonTheme: const ElevatedButtonThemeData(
+  filledButtonTheme: const FilledButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStatePropertyAll(darkPrimaryColor),
       foregroundColor: WidgetStatePropertyAll(darkOnPrimaryColor),

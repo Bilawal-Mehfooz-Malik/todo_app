@@ -69,8 +69,7 @@ class TodoListTile extends StatelessWidget {
                 ? null
                 : _buildDeadline(todo.deadline, context),
 
-            // Leading icon allows toggling the completion state
-            leading: _buildCheckBox(todo, cubit),
+            trailing: _buildCheckBox(todo, cubit),
           ),
         ),
       ),
