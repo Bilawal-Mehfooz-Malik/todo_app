@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
-import 'package:todo_app/src/features/ai_task/application/gemini_service.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_cubit.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_state.dart';
 import 'package:todo_app/src/utils/extensions.dart';
@@ -29,14 +26,10 @@ class _AiTaskInputScreenState extends State<AiTaskInputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AiTaskCubit>(
-      create: (context) => AiTaskCubit(
-        GetIt.instance<GeminiService>(),
-        context.read<TodoCubit>(),
-      ),
-      child: Scaffold(
-        appBar: AppBar(title: Text(context.loc.aiTaskInputTitle)),
-        body: BlocConsumer<AiTaskCubit, AiTaskState>(
+    return Scaffold(
+      appBar: AppBar(title: Text(context.loc.aiTaskInputTitle)),
+      body: SafeArea(
+        child: BlocConsumer<AiTaskCubit, AiTaskState>(
           listener: (context, state) {
             if (state is AiTaskSaved) {
               Navigator.of(context).pop();
@@ -52,21 +45,19 @@ class _AiTaskInputScreenState extends State<AiTaskInputScreen> {
             return Padding(
               padding: const EdgeInsets.all(Sizes.p16),
               child: Column(
+                spacing: Sizes.p16,
                 children: [
+                  Expanded(child: AiResponseDisplay(state: state)),
                   AiInputSection(
                     textEditingController: _controller,
                     onSubmitPressed: () {
                       if (_controller.text.isNotEmpty) {
-                        context
-                            .read<AiTaskCubit>()
-                            .processUserMessage(_controller.text);
+                        context.read<AiTaskCubit>().processUserMessage(
+                          _controller.text,
+                        );
                       }
                     },
                     isLoading: state is AiTaskLoading,
-                  ),
-                  gapH16,
-                  Expanded(
-                    child: AiResponseDisplay(state: state),
                   ),
                 ],
               ),

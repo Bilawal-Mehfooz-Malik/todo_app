@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/src/app.dart';
-import 'package:todo_app/src/features/ai_task/application/gemini_service.dart';
+import 'package:todo_app/src/features/ai_task/application/ai_service.dart';
+import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_cubit.dart';
 import 'package:todo_app/src/features/todo_list/data/app_database.dart';
 import 'package:todo_app/src/features/todo_list/data/drift_repository.dart';
 import 'package:todo_app/src/features/todo_list/domain/todo_repository.dart';
@@ -52,9 +53,9 @@ class AppInitializer {
   void _setupDependencies() {
     getIt.registerSingleton<Logger>(AppLogger(isTesting: forTesting));
     final model = FirebaseAI.googleAI().generativeModel(
-      model: 'gemini-2.5-pro',
+      model: 'gemini-2.5-flash',
     );
-    getIt.registerSingleton<GeminiService>(GeminiService(model: model));
+    getIt.registerSingleton<AiService>(AiService(model: model));
   }
 
   void _registerErrorHandlers() {
@@ -106,6 +107,12 @@ class AppInitializer {
           create: (BuildContext context) => TodoCubit(repo, logger),
         ),
         BlocProvider<DateCubit>(create: (BuildContext context) => DateCubit()),
+        BlocProvider<AiTaskCubit>(
+          create: (context) => AiTaskCubit(
+            GetIt.instance<AiService>(),
+            context.read<TodoCubit>(),
+          ),
+        ),
       ],
       child: const MyApp(),
     );

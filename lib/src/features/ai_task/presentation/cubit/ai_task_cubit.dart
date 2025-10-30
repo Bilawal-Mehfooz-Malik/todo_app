@@ -3,20 +3,37 @@ import 'package:todo_app/src/features/ai_task/domain/ai_task_draft.dart';
 import 'package:todo_app/src/features/ai_task/domain/ai_task_response.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_state.dart';
 import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
-import 'package:todo_app/src/features/ai_task/application/gemini_service.dart';
+import 'package:todo_app/src/features/ai_task/application/ai_service.dart';
 import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/utils/extensions.dart';
 
 class AiTaskCubit extends Cubit<AiTaskState> {
-  final GeminiService _geminiService;
+  final AiService _aiService;
   final TodoCubit _todoCubit;
+  // Store the conversation history for this session
+  final List<Map<String, String>> _conversationHistory = [];
 
-  AiTaskCubit(this._geminiService, this._todoCubit) : super(const AiTaskInitial());
+  AiTaskCubit(this._aiService, this._todoCubit) : super(const AiTaskInitial());
 
   Future<void> processUserMessage(String message) async {
     emit(const AiTaskLoading());
     try {
-      final AiTaskResponse response = await _geminiService.askGemini(message);
+      // Add user message to conversation history
+      _addToHistory('user', message);
 
+      // Call AI with full conversation history
+      final AiTaskResponse response = await _aiService.askAi(
+        message,
+        conversationHistory: _conversationHistory,
+      );
+
+      // Add AI reply to session history using textResponse
+      final aiReply = response.textResponse;
+      if (aiReply.isNotEmpty) {
+        _addToHistory('assistant', aiReply);
+      }
+
+      // Emit state based on AI response
       if (response.status == AiTaskResponseStatus.clarificationNeeded) {
         emit(AiTaskClarificationNeeded(response.clarificationQuestion!));
       } else if (response.status == AiTaskResponseStatus.taskReady) {
@@ -48,5 +65,15 @@ class AiTaskCubit extends Cubit<AiTaskState> {
 
   void resetState() {
     emit(const AiTaskInitial());
+  }
+
+  void _addToHistory(String role, String content) {
+    _conversationHistory.add({'role': role, 'content': content});
+
+    // Keep only the last 20 messages to avoid memory bloat
+    const maxMessages = 50;
+    if (_conversationHistory.length > maxMessages) {
+      _conversationHistory.removeAt(0); // remove oldest
+    }
   }
 }

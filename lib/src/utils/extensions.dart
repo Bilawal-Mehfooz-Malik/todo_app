@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/src/features/ai_task/domain/ai_task_response.dart';
 import 'package:todo_app/src/localization/app_localizations.dart';
 
 // extension to reduce boilerplate code for using localized text
@@ -19,4 +20,19 @@ extension TextThemeExtension on BuildContext {
 // extension for easy access to colorscheme
 extension ColorSchemeExtension on BuildContext {
   ColorScheme get color => Theme.of(this).colorScheme;
+}
+
+extension AiTaskResponseX on AiTaskResponse {
+  String get textResponse {
+    switch (status) {
+      case AiTaskResponseStatus.clarificationNeeded:
+        return clarificationQuestion ?? '';
+      case AiTaskResponseStatus.taskReady:
+        final draft = taskDraft;
+        if (draft == null) return '';
+        return 'Task "${draft.title}" ready with deadline ${draft.deadline}';
+      case AiTaskResponseStatus.error:
+        return errorMessage ?? '';
+    }
+  }
 }

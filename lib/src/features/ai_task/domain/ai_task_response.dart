@@ -43,4 +43,36 @@ class AiTaskResponse {
       errorMessage: message,
     );
   }
+  factory AiTaskResponse.fromJson(Map<String, dynamic> json) {
+    final status = json['status'] as String?;
+    if (status == null) {
+      return AiTaskResponse.error('Missing status in JSON response.');
+    }
+
+    switch (status) {
+      case 'task_ready':
+        final taskJson = json['task'] as Map<String, dynamic>?;
+        if (taskJson == null) {
+          return AiTaskResponse.error('Missing task data in JSON.');
+        }
+        final draft = AiTaskDraft.fromJson(taskJson);
+        return AiTaskResponse._(
+          status: AiTaskResponseStatus.taskReady,
+          taskDraft: draft,
+        );
+
+      case 'clarification_needed':
+        return AiTaskResponse.clarificationNeeded(
+          json['question'] as String? ?? 'No question provided.',
+        );
+
+      case 'error':
+        return AiTaskResponse.error(
+          json['message'] as String? ?? 'Unknown error occurred.',
+        );
+
+      default:
+        return AiTaskResponse.error('Unexpected status: $status');
+    }
+  }
 }
