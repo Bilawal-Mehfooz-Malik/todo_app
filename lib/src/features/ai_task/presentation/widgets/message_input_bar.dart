@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
+import 'package:todo_app/src/features/ai_task/presentation/cubit/speech_recognition_cubit.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 
 class MessageInputBar extends StatefulWidget {
@@ -23,10 +25,13 @@ class _MessageInputBarState extends State<MessageInputBar> {
   @override
   void initState() {
     super.initState();
+    context.read<SpeechRecognitionCubit>().initialize();
     _controller.addListener(() {
-      setState(() {
-        _canSend = _controller.text.isNotEmpty;
-      });
+      if (mounted) {
+        setState(() {
+          _canSend = _controller.text.isNotEmpty;
+        });
+      }
     });
   }
 
@@ -45,38 +50,87 @@ class _MessageInputBarState extends State<MessageInputBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: Sizes.p4,
-      child: Container(
-        padding: const EdgeInsets.all(Sizes.p8),
-        decoration: BoxDecoration(
-          color: context.color.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(Sizes.p32),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  hintText: context.loc.aiInputHint,
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.p16,
+    return BlocListener<SpeechRecognitionCubit, SpeechRecognitionState>(
+      listener: (context, state) {
+        String text = '';
+        if (state is SpeechRecognitionListening) {
+          text = state.recognizedWords;
+        } else if (state is SpeechRecognitionAvailable) {
+          text = state.recognizedWords;
+        }
+
+        if (_controller.text != text) {
+          _controller.text = text;
+          // Move cursor to the end
+          _controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: _controller.text.length),
+          );
+        }
+      },
+      child: Material(
+        elevation: Sizes.p4,
+        child: Container(
+          padding: const EdgeInsets.all(Sizes.p8),
+          decoration: BoxDecoration(
+            color: context.color.surfaceContainerHigh,
+            borderRadius: BorderRadius.circular(Sizes.p32),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                    hintText: context.loc.aiInputHint,
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.p16,
+                    ),
                   ),
+                  onSubmitted: (_) => _handleSend(),
                 ),
-                onSubmitted: (_) => _handleSend(),
               ),
-            ),
-            IconButton(
-              icon: _canSend ? const Icon(Icons.send) : const Icon(Icons.mic),
-              onPressed: widget.isLoading
-                  ? null
-                  : _canSend
-                  ? _handleSend
-                  : null, // Mic functionality disabled for now
-            ),
-          ],
+              BlocBuilder<SpeechRecognitionCubit, SpeechRecognitionState>(
+                builder: (context, state) {
+                  if (widget.isLoading) {
+                    return const IconButton(
+                      icon: SizedBox(
+                        width: Sizes.p24,
+                        height: Sizes.p24,
+                        child: CircularProgressIndicator(),
+                      ),
+                      onPressed: null,
+                    );
+                  }
+
+                  if (state is SpeechRecognitionListening) {
+                    return IconButton(
+                      icon: const Icon(Icons.stop),
+                      onPressed: () => context
+                          .read<SpeechRecognitionCubit>()
+                          .stopListening(),
+                    );
+                  }
+
+                  if (_canSend) {
+                    return IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: _handleSend,
+                    );
+                  }
+
+                  return IconButton(
+                    icon: const Icon(Icons.mic),
+                    onPressed: () =>
+                        context.read<SpeechRecognitionCubit>().startListening(),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/features/ai_task/application/speech_recognition_service.dart';
+import 'package:todo_app/src/features/ai_task/presentation/cubit/speech_recognition_cubit.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_cubit.dart';
 import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_state.dart';
 import 'package:todo_app/src/utils/extensions.dart';
@@ -8,15 +10,30 @@ import 'package:todo_app/src/features/ai_task/presentation/widgets/message_bubbl
 import 'package:todo_app/src/features/ai_task/presentation/widgets/message_input_bar.dart';
 import 'package:todo_app/src/features/ai_task/presentation/widgets/task_confirmation_dialog.dart';
 
-class AiTaskInputScreen extends StatefulWidget {
+class AiTaskInputScreen extends StatelessWidget {
   const AiTaskInputScreen({super.key});
 
   @override
-  State<AiTaskInputScreen> createState() => _AiTaskInputScreenState();
+  Widget build(BuildContext context) {
+    return RepositoryProvider(
+      create: (context) => SpeechRecognitionService(),
+      child: BlocProvider(
+        create: (context) =>
+            SpeechRecognitionCubit(context.read<SpeechRecognitionService>()),
+        child: const _AiTaskInputView(),
+      ),
+    );
+  }
 }
 
-class _AiTaskInputScreenState extends State<AiTaskInputScreen> {
+class _AiTaskInputView extends StatefulWidget {
+  const _AiTaskInputView();
 
+  @override
+  State<_AiTaskInputView> createState() => _AiTaskInputViewState();
+}
+
+class _AiTaskInputViewState extends State<_AiTaskInputView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
