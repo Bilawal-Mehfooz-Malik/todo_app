@@ -4,11 +4,11 @@ import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/common/custom_text_field.dart';
-import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/common/custom_elevated_button.dart';
-import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
-import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/add_todo/deadline_section.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
+import 'package:todo_app/src/common/custom_filled_button.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/date_cubit.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/add_todo/deadline_section.dart';
 
 const kTodoNameKey = ValueKey('Todo-Name');
 const kTodoDescriptionKey = ValueKey('Todo-Description');
@@ -76,7 +76,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
 
               // Save Todo Button
               BlocBuilder<DateCubit, DateTime?>(
-                builder: (context, deadline) => CustomElevatedButton(
+                builder: (context, deadline) => CustomFilledButton(
                   text: context.loc.save,
                   onPressed: () => _saveTodo(context, deadline),
                 ),
@@ -127,7 +127,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     } else {
       // Create a new Todo
       Todo newTodo = Todo(
-        id: DateTime.now().millisecondsSinceEpoch,
+        id: -1,
         name: title,
         description: detail,
         deadline: deadline,

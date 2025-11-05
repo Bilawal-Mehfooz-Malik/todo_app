@@ -1,16 +1,19 @@
 import 'package:drift/native.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/src/app.dart';
-import 'package:todo_app/src/features/data/database/app_database.dart';
-import 'package:todo_app/src/features/data/drift_repository.dart';
-import 'package:todo_app/src/features/domain/todo_repository.dart';
-import 'package:todo_app/src/features/presentation/cubits/date_cubit.dart';
-import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/ai_task/application/ai_service.dart';
+import 'package:todo_app/src/features/ai_task/presentation/cubit/ai_task_cubit.dart';
+import 'package:todo_app/src/features/todo_list/data/app_database.dart';
+import 'package:todo_app/src/features/todo_list/data/drift_repository.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_repository.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/date_cubit.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
 import 'package:todo_app/src/localization/string_hardcoded.dart';
 import 'package:todo_app/src/utils/app_logger.dart';
 
@@ -49,6 +52,11 @@ class AppInitializer {
 
   void _setupDependencies() {
     getIt.registerSingleton<Logger>(AppLogger(isTesting: forTesting));
+    if (forTesting) return;
+    final model = FirebaseAI.googleAI().generativeModel(
+      model: 'gemini-2.5-flash',
+    );
+    getIt.registerSingleton<AiService>(AiService(model: model));
   }
 
   void _registerErrorHandlers() {
@@ -100,6 +108,12 @@ class AppInitializer {
           create: (BuildContext context) => TodoCubit(repo, logger),
         ),
         BlocProvider<DateCubit>(create: (BuildContext context) => DateCubit()),
+        BlocProvider<AiTaskCubit>(
+          create: (context) => AiTaskCubit(
+            GetIt.instance<AiService>(),
+            context.read<TodoCubit>(),
+          ),
+        ),
       ],
       child: const MyApp(),
     );

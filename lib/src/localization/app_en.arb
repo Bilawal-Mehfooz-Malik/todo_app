@@ -42,5 +42,21 @@
   "delete": "Delete",
   "@delete": {},
   "editTodo": "Edit Todo",
-  "@editTodo": {}
+  "@editTodo": {},
+
+  "aiTaskInputTitle": "AI Task Input",
+  "@aiTaskInputTitle": {},
+  "aiInputHint": "Type your task here (e.g., add a task for homework of English due tomorrow)",
+  "@aiInputHint": {},
+  "submitButton": "Submit",
+  "@submitButton": {},
+  "confirmButton": "Confirm",
+  "@confirmButton": {},
+  "cancelButton": "Cancel",
+  "@cancelButton": {},
+  "error": "Error",
+  "@error": {},
+
+  "confirmTaskTitle": "Confirm Task",
+  "@confirmTaskTitle": {}
 }

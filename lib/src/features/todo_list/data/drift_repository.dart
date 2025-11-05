@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
-import 'package:todo_app/src/features/data/database/app_database.dart';
-import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/domain/todo_repository.dart';
+import 'package:todo_app/src/features/todo_list/data/app_database.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_repository.dart';
 
 class DriftRepository implements TodoRepository {
   DriftRepository(this._db);

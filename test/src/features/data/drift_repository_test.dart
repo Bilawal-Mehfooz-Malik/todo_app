@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart'; // Direct import for setUp, tearDown, group
-import 'package:flutter_test/flutter_test.dart' as ft; // Alias for test, expect, isNotNull, isNull, isTrue
+import 'package:flutter_test/flutter_test.dart'
+    as ft; // Alias for test, expect, isNotNull, isNull, isTrue
 import 'package:drift/native.dart'; // Correct import for NativeDatabase
-import 'package:todo_app/src/features/data/database/app_database.dart';
-import 'package:todo_app/src/features/data/drift_repository.dart';
-import 'package:todo_app/src/features/domain/todo_model.dart';
+import 'package:todo_app/src/features/todo_list/data/app_database.dart';
+import 'package:todo_app/src/features/todo_list/data/drift_repository.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
 
 void main() {
   late AppDatabase db;
@@ -111,27 +112,30 @@ void main() {
       ft.expect(result.isCompleted, true);
     });
 
-    ft.test('toggleCompletion toggles the completion status of a todo', () async {
-      final todo = Todo(
-        id: 0,
-        name: 'Toggle Test',
-        description: 'Toggle description',
-        deadline: DateTime.now().add(const Duration(days: 1)),
-        isCompleted: false,
-      );
-      await driftRepository.addTodo(todo);
-      final addedTodo = await driftRepository.getTodo(1);
-      ft.expect(addedTodo!.isCompleted, false);
+    ft.test(
+      'toggleCompletion toggles the completion status of a todo',
+      () async {
+        final todo = Todo(
+          id: 0,
+          name: 'Toggle Test',
+          description: 'Toggle description',
+          deadline: DateTime.now().add(const Duration(days: 1)),
+          isCompleted: false,
+        );
+        await driftRepository.addTodo(todo);
+        final addedTodo = await driftRepository.getTodo(1);
+        ft.expect(addedTodo!.isCompleted, false);
 
-      await driftRepository.toggleCompletion(addedTodo);
+        await driftRepository.toggleCompletion(addedTodo);
 
-      final toggledOnce = await driftRepository.getTodo(addedTodo.id);
-      ft.expect(toggledOnce!.isCompleted, true);
+        final toggledOnce = await driftRepository.getTodo(addedTodo.id);
+        ft.expect(toggledOnce!.isCompleted, true);
 
-      await driftRepository.toggleCompletion(toggledOnce);
+        await driftRepository.toggleCompletion(toggledOnce);
 
-      final toggledTwice = await driftRepository.getTodo(addedTodo.id);
-      ft.expect(toggledTwice!.isCompleted, false);
-    });
+        final toggledTwice = await driftRepository.getTodo(addedTodo.id);
+        ft.expect(toggledTwice!.isCompleted, false);
+      },
+    );
   });
 }

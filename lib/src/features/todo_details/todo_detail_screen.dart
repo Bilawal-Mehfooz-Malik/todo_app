@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/common/custom_filled_button.dart';
 import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/constants/app_sizes.dart';
 import 'package:todo_app/src/utils/date_formatter.dart';
 import 'package:todo_app/src/common/alert_dialogues.dart';
 import 'package:todo_app/src/common/custom_icon_button.dart';
-import 'package:todo_app/src/features/domain/todo_model.dart';
-import 'package:todo_app/src/features/presentation/cubits/todo_cubit.dart';
-import 'package:todo_app/src/features/presentation/add_todo/add_todo_screen.dart';
+import 'package:todo_app/src/features/todo_list/domain/todo_model.dart';
+import 'package:todo_app/src/features/todo_list/presentation/cubits/todo_cubit.dart';
+import 'package:todo_app/src/features/add_todo/add_todo_screen.dart';
 
 class TodoDetailScreen extends StatelessWidget {
   final Todo todo;
@@ -129,9 +130,9 @@ class TodoDetailScreen extends StatelessWidget {
   }
 
   Widget _buildEditButton(BuildContext context) {
-    return ElevatedButton(
+    return CustomFilledButton(
       onPressed: () => _navigateToEdit(context),
-      child: Text(context.loc.editTodo),
+      text: context.loc.editTodo,
     );
   }
 }
