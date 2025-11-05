@@ -51,6 +51,11 @@ class AiTaskCubit extends Cubit<AiTaskState> {
   // Resets to initial state
   void resetState() => emit(const AiTaskState());
 
+  // Clears the task draft from the state
+  void clearTaskDraft() {
+    emit(state.copyWith(taskDraft: null, status: AiStateStatus.success));
+  }
+
   // -----------------Helpers-----------------
 
   // Adds a message to the conversation safely

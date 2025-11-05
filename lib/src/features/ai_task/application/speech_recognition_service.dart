@@ -71,13 +71,14 @@ class SpeechRecognitionService {
     return microphoneStatus.isGranted && speechStatus.isGranted;
   }
 
-  void startListening() {
+  void startListening({String prefix = ''}) {
     if (!_isInitialized || _speechToText.isListening) return;
 
-    _recognizedWordsNotifier.value = '';
+    _recognizedWordsNotifier.value = prefix; // Initialize with prefix
     _speechToText.listen(
       onResult: (SpeechRecognitionResult result) {
-        _recognizedWordsNotifier.value = result.recognizedWords;
+        // Append to prefix
+        _recognizedWordsNotifier.value = prefix + (prefix.isNotEmpty && result.recognizedWords.isNotEmpty ? ' ' : '') + result.recognizedWords;
         if (result.finalResult) {
           _statusNotifier.value = SpeechRecognitionStatus.stopped;
         }

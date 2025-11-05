@@ -59,6 +59,9 @@ class _AiTaskInputViewState extends State<_AiTaskInputView> {
                 if (confirmed == true) {
                   if (!context.mounted) return;
                   context.read<AiTaskCubit>().confirmTask(state.taskDraft!);
+                } else { // User cancelled
+                  if (!context.mounted) return;
+                  context.read<AiTaskCubit>().clearTaskDraft();
                 }
               });
             }

@@ -52,6 +52,7 @@ class AppInitializer {
 
   void _setupDependencies() {
     getIt.registerSingleton<Logger>(AppLogger(isTesting: forTesting));
+    if (forTesting) return;
     final model = FirebaseAI.googleAI().generativeModel(
       model: 'gemini-2.5-flash',
     );

@@ -29,6 +29,15 @@ class SpeechRecognitionListening extends SpeechRecognitionState {
   List<Object> get props => [recognizedWords];
 }
 
+class SpeechRecognitionPaused extends SpeechRecognitionState {
+  final String recognizedWords;
+
+  const SpeechRecognitionPaused({required this.recognizedWords});
+
+  @override
+  List<Object> get props => [recognizedWords];
+}
+
 class SpeechRecognitionError extends SpeechRecognitionState {
   final String message;
 

@@ -21,8 +21,8 @@ class SpeechRecognitionCubit extends Cubit<SpeechRecognitionState> {
     await _speechRecognitionService.initialize();
   }
 
-  void startListening() {
-    _speechRecognitionService.startListening();
+  void startListening({String currentText = ''}) {
+    _speechRecognitionService.startListening(prefix: currentText);
   }
 
   void stopListening() {

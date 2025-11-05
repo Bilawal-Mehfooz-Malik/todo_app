@@ -7,6 +7,9 @@ import 'package:todo_app/src/utils/extensions.dart';
 import 'package:todo_app/src/features/todo_list/presentation/todo_list_view.dart';
 import 'package:todo_app/src/features/add_todo/add_todo_screen.dart';
 
+const kAddTodoKey = ValueKey('Add-Todo');
+const kAITodoKey = ValueKey('AI-Todo');
+
 class MyTodoScreen extends StatefulWidget {
   const MyTodoScreen({super.key});
 
@@ -54,12 +57,14 @@ class _AiAndAddTodoButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         FloatingActionButton(
+          key: kAITodoKey,
           heroTag: 'ai_fab',
           onPressed: onAiTodoPressed,
           child: const Icon(Icons.psychology_alt),
         ),
         gapH16,
         FloatingActionButton(
+          key: kAddTodoKey,
           heroTag: 'add_todo_fab',
           onPressed: onAddTodoPressed,
           child: const Icon(Icons.add),

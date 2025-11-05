@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:todo_app/src/app_initializer.dart';
@@ -7,6 +6,7 @@ import 'package:todo_app/src/common/custom_filled_button.dart';
 import 'package:todo_app/src/common/message.dart';
 import 'package:todo_app/src/features/add_todo/add_todo_screen.dart';
 import 'package:todo_app/src/features/add_todo/deadline_section.dart';
+import 'package:todo_app/src/features/todo_list/presentation/my_todo_screen.dart';
 import 'package:todo_app/src/features/todo_list/presentation/todo_list_tile.dart';
 
 void main() {
@@ -25,7 +25,7 @@ void main() {
         expect(find.byType(CenteredMessage), findsOneWidget);
 
         // Tap the floating action button.
-        await tester.tap(find.byType(FloatingActionButton));
+        await tester.tap(find.byKey(kAddTodoKey));
         await tester.pumpAndSettle();
 
         // Enter todo name

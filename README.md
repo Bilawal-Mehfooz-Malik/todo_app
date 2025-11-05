@@ -8,6 +8,7 @@ A simple yet powerful Todo app developed using `drift` (formerly `moor`) as the 
 - **High-Performance Local Storage**: Using `drift` for a fast and reliable local database.
 - **Error Reporting**: Integrated with **Firebase Crashlytics** for real-time crash monitoring.
 - **Over-the-Air Updates**: Ready for hotfixes using **Shorebird**.
+- **AI Integration**: Conversational task creation and voice input.
 
 ## Technologies & Architecture
 - **State Management**: `flutter_bloc`
@@ -16,7 +17,13 @@ A simple yet powerful Todo app developed using `drift` (formerly `moor`) as the 
 - **CI/CD**: Codemagic & GitHub Actions
 - **Error Reporting**: Firebase Crashlytics
 - **Hotfixes**: Shorebird
-- **Architecture**: A clean, feature-first architecture is used, separating code into `data`, `domain`, and `presentation` layers.
+- **AI Integration**: Gemini (Conversational AI & Voice Input)
+- **Architecture**: A clean, feature-first architecture is used, separating code into `data`, `domain`,`application` and `presentation` layers.
+
+## AI Integration
+This application integrates advanced AI capabilities to streamline task management:
+- **Conversational Task Creation**: Interact with an AI assistant using natural language to create tasks. The AI can understand your requests, ask clarifying questions, and draft tasks for your confirmation.
+- **Voice Input**: Utilize real-time voice recognition to input your messages and task descriptions directly into the chat interface, supporting a hands-free and efficient workflow.
 
 ## DevOps & CI/CD
 This project uses a tag-based release system automated with Codemagic.

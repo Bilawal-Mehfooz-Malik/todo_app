@@ -115,18 +115,36 @@ class _MessageInputBarState extends State<MessageInputBar> {
                     );
                   }
 
-                  if (_canSend) {
+                  // If not listening and not loading
+                  // Check if there's text in the controller
+                  final bool hasText = _controller.text.isNotEmpty;
+
+                  if (hasText) {
+                    // Show Mic and Send buttons
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.mic),
+                          onPressed: () => context
+                              .read<SpeechRecognitionCubit>()
+                              .startListening(currentText: _controller.text),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: state is SpeechRecognitionListening ? null : _handleSend,
+                        ),
+                      ],
+                    );
+                  } else {
+                    // Show only Mic button
                     return IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: _handleSend,
+                      icon: const Icon(Icons.mic),
+                      onPressed: () => context
+                          .read<SpeechRecognitionCubit>()
+                          .startListening(currentText: _controller.text),
                     );
                   }
-
-                  return IconButton(
-                    icon: const Icon(Icons.mic),
-                    onPressed: () =>
-                        context.read<SpeechRecognitionCubit>().startListening(),
-                  );
                 },
               ),
             ],
