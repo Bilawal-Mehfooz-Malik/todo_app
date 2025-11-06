@@ -25,7 +25,7 @@ Future<bool?> showCustomAlertDialog({
               onPressed: () => Navigator.of(context).pop(false),
             ),
           if (defaultActionText != null)
-            ElevatedButton(
+            FilledButton(
               child: Text(defaultActionText),
               onPressed: () => Navigator.of(context).pop(true),
             ),
