@@ -46,7 +46,7 @@
 
   "aiTaskInputTitle": "AI Task Input",
   "@aiTaskInputTitle": {},
-  "aiInputHint": "Type your task here (e.g., add a task for homework of English due tomorrow)",
+  "aiInputHint": "Type your task here",
   "@aiInputHint": {},
   "submitButton": "Submit",
   "@submitButton": {},

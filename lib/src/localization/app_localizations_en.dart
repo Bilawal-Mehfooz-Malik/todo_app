@@ -66,8 +66,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiTaskInputTitle => 'AI Task Input';
 
   @override
-  String get aiInputHint =>
-      'Type your task here (e.g., add a task for homework of English due tomorrow)';
+  String get aiInputHint => 'Type your task here';
 
   @override
   String get submitButton => 'Submit';

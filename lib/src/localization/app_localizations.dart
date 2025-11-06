@@ -211,7 +211,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiInputHint.
   ///
   /// In en, this message translates to:
-  /// **'Type your task here (e.g., add a task for homework of English due tomorrow)'**
+  /// **'Type your task here'**
   String get aiInputHint;
 
   /// No description provided for @submitButton.
